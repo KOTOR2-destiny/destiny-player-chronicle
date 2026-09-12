@@ -32,7 +32,7 @@
     </div>
 
     <div style="margin-top:14px" class="cs-label">SYSTEMS OPERATOR</div>
-    <div class="cs-help">The Nar Shaddaa training encounter established DC 15 Use Computer support: +2 to the next Pilot check for navigation, or +2 to one gunner attack from improved sensors.</div>
+    <div class="cs-help">DC 15 Use Computer support: +2 to the next Pilot check for navigation, or +2 to one gunner attack from improved sensors.</div>
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px">
       <button class="cs-roll-button" onclick="ssAssistNavigation()">ASSIST NAVIGATION // DC 15</button>
       <button class="cs-roll-button" onclick="ssSensorLock()">IMPROVE SENSORS // DC 15</button>
