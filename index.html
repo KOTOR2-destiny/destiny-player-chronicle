@@ -1156,6 +1156,8 @@ input[type="file"]{
     -webkit-appearance:none;
     margin:0;
 }
+.cs-inline-roll{background:transparent;border:1px solid rgba(77,226,255,.35);color:#bffcff;border-radius:4px;padding:1px 7px;cursor:pointer;font:inherit;font-weight:800}
+.cs-inline-roll:hover{border-color:#7ef9ff;box-shadow:0 0 10px rgba(126,249,255,.22)}
 .cs-rule-reference-text{
     margin:14px 0;
     padding:12px;
@@ -1782,7 +1784,10 @@ input[type="file"]{
                         <select id="cs-species" class="cs-select" data-cs onchange="characterSheetChanged()">
                             <option>Human</option><option>Twi'lek</option><option>Wookiee</option><option>Kel Dor</option>
                             <option>Bothan</option><option>Rodian</option><option>Jawa</option><option>Ewok</option>
-                            <option>Ithorian</option><option>Gamorrean</option><option value="Custom">Custom / Other</option>
+                            <option>Ithorian</option><option>Gamorrean</option>
+                            <option>Arkanian</option><option>Arkanian Offshoot</option><option>Cathar</option><option>Feeorin</option>
+                            <option>Miraluka</option><option>Nagai</option><option>Rakata</option><option>Selkath</option>
+                            <option value="Custom">Custom / Other</option>
                         </select>
                     </div>
                     <div class="cs-field"><div class="cs-label">DESTINY</div><input id="cs-destiny" class="cs-input" data-cs></div>
@@ -1806,13 +1811,34 @@ input[type="file"]{
                 </div>
 
                 <div class="cs-panel">
+                    <div class="section-title">ARMOR / LIVE DEXTERITY</div>
+                    <div class="cs-help">Enter the armor's printed statistics. Max DEX and defense changes are applied automatically whenever DEX or armor changes.</div>
+                    <div class="cs-grid">
+                        <div class="cs-field"><div class="cs-label">ARMOR NAME</div><input id="cs-armor-name" class="cs-input" placeholder="e.g. Camo armor" data-cs></div>
+                        <div class="cs-field"><div class="cs-label">ARMOR BONUS TO REFLEX</div><input id="cs-armor-ref" type="number" value="0" class="cs-input" data-cs></div>
+                        <div class="cs-field"><div class="cs-label">EQUIPMENT BONUS TO FORT</div><input id="cs-armor-fort" type="number" value="0" class="cs-input" data-cs></div>
+                        <div class="cs-field"><div class="cs-label">MAX DEX BONUS</div><input id="cs-armor-maxdex" type="number" class="cs-input" placeholder="blank = no cap" data-cs></div>
+                        <div class="cs-field"><div class="cs-label">TEMP / CURRENT DEX SCORE</div><input id="cs-temp-dex" type="number" class="cs-input" placeholder="blank = normal DEX" data-cs></div>
+                    </div>
+                    <div class="cs-grid" style="margin-top:8px">
+                        <label class="cs-check"><input id="cs-armor-worn" type="checkbox" data-cs> ARMOR WORN</label>
+                        <label class="cs-check"><input id="cs-armor-proficient" type="checkbox" data-cs> PROFICIENT</label>
+                        <label class="cs-check"><input id="cs-armored-defense" type="checkbox" data-cs> ARMORED DEFENSE</label>
+                        <label class="cs-check"><input id="cs-improved-armored-defense" type="checkbox" data-cs> IMPROVED ARMORED DEFENSE</label>
+                        <label class="cs-check"><input id="cs-armor-mastery" type="checkbox" data-cs> ARMOR MASTERY</label>
+                        <label class="cs-check"><input id="cs-second-skin" type="checkbox" data-cs> SECOND SKIN</label>
+                    </div>
+                    <div id="cs-armor-live-note" class="cs-species-note" style="margin-top:8px">NO ARMOR ACTIVE</div>
+                </div>
+
+                <div class="cs-panel">
                     <div class="section-title">COMBAT / DEFENSES</div>
                     <div class="cs-defense-grid">
-                        <button class="cs-defense" onclick="rollDefenseSave('reflex')"><div class="cs-defense-name">REFLEX DEFENSE</div><div id="cs-reflex" class="cs-defense-total">10</div><div id="cs-reflex-breakdown" class="cs-breakdown"></div></button>
-                        <button class="cs-defense" onclick="rollDefenseSave('fortitude')"><div class="cs-defense-name">FORTITUDE DEFENSE</div><div id="cs-fortitude" class="cs-defense-total">10</div><div id="cs-fortitude-breakdown" class="cs-breakdown"></div></button>
-                        <button class="cs-defense" onclick="rollDefenseSave('will')"><div class="cs-defense-name">WILL DEFENSE</div><div id="cs-will" class="cs-defense-total">10</div><div id="cs-will-breakdown" class="cs-breakdown"></div></button>
+                        <div class="cs-defense"><div class="cs-defense-name">REFLEX DEFENSE</div><div id="cs-reflex" class="cs-defense-total">10</div><div id="cs-reflex-breakdown" class="cs-breakdown"></div></div>
+                        <div class="cs-defense"><div class="cs-defense-name">FORTITUDE DEFENSE</div><div id="cs-fortitude" class="cs-defense-total">10</div><div id="cs-fortitude-breakdown" class="cs-breakdown"></div></div>
+                        <div class="cs-defense"><div class="cs-defense-name">WILL DEFENSE</div><div id="cs-will" class="cs-defense-total">10</div><div id="cs-will-breakdown" class="cs-breakdown"></div></div>
                     </div>
-                    <div class="cs-help">Click a defense to make an active d20 saving/check roll using Defense − 10 as the modifier.</div>
+                    <div class="cs-help">Static Saga Edition defenses. The sheet recalculates these automatically from level, abilities, species, armor, talents, and temporary Dexterity changes.</div>
                     <div class="cs-stat-strip">
                         <div class="cs-stat">HEROIC LEVEL<b id="cs-level-out">0</b></div>
                         <div class="cs-stat">BASE ATTACK<b id="cs-bab-out">+0</b></div>
@@ -3983,6 +4009,14 @@ const CS_SPECIES={
     "Ewok":{mods:{dex:2,str:-2},speed:4,sizeRef:1,fort:0,will:0,note:"+2 DEX, -2 STR; Small (+1 Reflex, +5 Stealth); speed 4."},
     "Ithorian":{mods:{cha:2,wis:2,dex:-2},speed:6,sizeRef:0,fort:0,will:2,note:"+2 CHA, +2 WIS, -2 DEX; +2 species bonus to Will Defense."},
     "Gamorrean":{mods:{str:2,dex:-2,int:-2},speed:6,sizeRef:0,fort:2,will:0,note:"+2 STR, -2 DEX, -2 INT; +2 species bonus to Fortitude Defense."},
+    "Arkanian":{mods:{int:2,cha:-2},speed:6,sizeRef:0,fort:0,will:0,note:"+2 INT, -2 CHA. Arkanian species traits beyond ability adjustments remain player-managed where applicable."},
+    "Arkanian Offshoot":{mods:{},speed:6,sizeRef:0,fort:0,will:0,note:"Arkanian Offshoots vary by engineered lineage. Use the Other fields for the specific offshoot's ability adjustments."},
+    "Cathar":{mods:{dex:2,wis:-2},speed:6,sizeRef:0,fort:0,will:0,note:"+2 DEX, -2 WIS. Other Cathar species traits remain available to the character but do not alter these base calculations."},
+    "Feeorin":{mods:{str:2,con:2,dex:-2},speed:6,sizeRef:0,fort:0,will:0,note:"+2 STR, +2 CON, -2 DEX. Other Feeorin species traits are not folded into generic calculations."},
+    "Miraluka":{mods:{wis:2,dex:-2},speed:6,sizeRef:0,fort:0,will:0,note:"+2 WIS, -2 DEX. Miraluka Force Sight and related traits are tracked as species abilities rather than ordinary numeric modifiers."},
+    "Nagai":{mods:{dex:2,con:-2},speed:6,sizeRef:0,fort:0,will:0,note:"+2 DEX, -2 CON. Other Nagai species traits remain player-managed where applicable."},
+    "Rakata":{mods:{str:2,int:2,cha:-2},speed:6,sizeRef:0,fort:0,will:0,note:"+2 STR, +2 INT, -2 CHA. Other Rakatan traits remain player-managed where applicable."},
+    "Selkath":{mods:{dex:2,cha:-2},speed:6,sizeRef:0,fort:0,will:0,note:"+2 DEX, -2 CHA. Other Selkath species traits remain player-managed where applicable."},
     "Custom":{mods:{},speed:6,sizeRef:0,fort:0,will:0,note:"Custom species: use each ability's Other field and Misc defense fields for adjustments."}
 };
 
@@ -4021,7 +4055,7 @@ function buildCharacterSheetUI(){
                     <div><div class="cs-mini">OTHER</div><input id="cs-${key}-other" type="number" value="0" class="cs-input" data-cs></div>
                     <div><div class="cs-mini">MOD</div><div id="cs-${key}-mod" class="cs-mod">+0</div></div>
                 </div>
-                <div class="cs-mini" style="margin-top:5px">FINAL SCORE: <b id="cs-${key}-final">10</b></div>`;
+                <div class="cs-mini" style="margin-top:5px">FINAL SCORE: <button type="button" class="cs-inline-roll" id="cs-${key}-final" onclick="rollAbilityCheck('${key}','${name}')">10</button></div>`;
             abilities.appendChild(box);
         });
     }
@@ -4091,15 +4125,51 @@ function recalculateCharacterSheet(){
         document.getElementById(`cs-${key}-mod`).textContent=csSigned(mod);
     });
     document.getElementById("cs-species-note").textContent=species.note;
-    const ref=10+cls.level+getAbilityMod("dex")+cls.ref+species.sizeRef+csNum("cs-misc-ref");
-    const fort=10+cls.level+getAbilityMod("con")+cls.fort+species.fort+csNum("cs-misc-fort");
+    const armorWorn=!!document.getElementById("cs-armor-worn")?.checked;
+    const armorProficient=!!document.getElementById("cs-armor-proficient")?.checked;
+    const armorRef=csNum("cs-armor-ref"), armorFort=csNum("cs-armor-fort");
+    const armoredDefense=armorWorn&&armorProficient&&!!document.getElementById("cs-armored-defense")?.checked;
+    const improvedArmoredDefense=armoredDefense&&!!document.getElementById("cs-improved-armored-defense")?.checked;
+    const armorMastery=armoredDefense&&!!document.getElementById("cs-armor-mastery")?.checked;
+    const secondSkin=armoredDefense&&!!document.getElementById("cs-second-skin")?.checked;
+
+    const tempDexText=(document.getElementById("cs-temp-dex")?.value||"").trim();
+    const normalDexScore=Number(document.getElementById("cs-dex-final").textContent)||10;
+    const liveDexScore=tempDexText===""?normalDexScore:Number(tempDexText);
+    const liveDexMod=Math.floor((liveDexScore-10)/2);
+    const maxDexText=(document.getElementById("cs-armor-maxdex")?.value||"").trim();
+    const maxDex=(armorWorn&&maxDexText!=="")?Number(maxDexText)+(armorMastery?1:0):null;
+    const dexForRef=maxDex===null?liveDexMod:Math.min(liveDexMod,maxDex);
+
+    let refLevelArmor=cls.level, refChoice=`LV ${cls.level}`;
+    if(armorWorn){
+        const effectiveArmor=armorRef+(secondSkin?1:0);
+        if(improvedArmoredDefense){
+            const heroicPlusHalf=cls.level+Math.floor(effectiveArmor/2);
+            if(heroicPlusHalf>=effectiveArmor){refLevelArmor=heroicPlusHalf;refChoice=`LV+½ ARMOR ${heroicPlusHalf}`;}
+            else{refLevelArmor=effectiveArmor;refChoice=`ARMOR ${effectiveArmor}`;}
+        }else if(armoredDefense){
+            if(cls.level>=effectiveArmor){refLevelArmor=cls.level;refChoice=`LV ${cls.level}`;}
+            else{refLevelArmor=effectiveArmor;refChoice=`ARMOR ${effectiveArmor}`;}
+        }else{
+            refLevelArmor=armorRef;refChoice=`ARMOR ${armorRef}`;
+        }
+    }
+
+    const armorFortApplied=armorWorn?armorFort+(secondSkin?1:0):0;
+    const ref=10+refLevelArmor+dexForRef+cls.ref+species.sizeRef+csNum("cs-misc-ref");
+    const fort=10+cls.level+getAbilityMod("con")+cls.fort+species.fort+armorFortApplied+csNum("cs-misc-fort");
     const will=10+cls.level+getAbilityMod("wis")+cls.will+species.will+csNum("cs-misc-will");
     document.getElementById("cs-reflex").textContent=ref;
     document.getElementById("cs-fortitude").textContent=fort;
     document.getElementById("cs-will").textContent=will;
-    document.getElementById("cs-reflex-breakdown").textContent=`10 + LV ${cls.level} + DEX ${csSigned(getAbilityMod("dex"))} + CLASS ${cls.ref} + SPECIES ${species.sizeRef} + MISC ${csNum("cs-misc-ref")}`;
-    document.getElementById("cs-fortitude-breakdown").textContent=`10 + LV ${cls.level} + CON ${csSigned(getAbilityMod("con"))} + CLASS ${cls.fort} + SPECIES ${species.fort} + MISC ${csNum("cs-misc-fort")}`;
+    document.getElementById("cs-reflex-breakdown").textContent=`10 + ${refChoice} + DEX ${csSigned(dexForRef)} + CLASS ${cls.ref} + SPECIES ${species.sizeRef} + MISC ${csNum("cs-misc-ref")}`;
+    document.getElementById("cs-fortitude-breakdown").textContent=`10 + LV ${cls.level} + CON ${csSigned(getAbilityMod("con"))} + CLASS ${cls.fort} + SPECIES ${species.fort} + ARMOR ${armorFortApplied} + MISC ${csNum("cs-misc-fort")}`;
     document.getElementById("cs-will-breakdown").textContent=`10 + LV ${cls.level} + WIS ${csSigned(getAbilityMod("wis"))} + CLASS ${cls.will} + SPECIES ${species.will} + MISC ${csNum("cs-misc-will")}`;
+    const armorNote=document.getElementById("cs-armor-live-note");
+    if(armorNote) armorNote.textContent=!armorWorn
+        ? `NO ARMOR ACTIVE // DEX ${liveDexScore} (${csSigned(liveDexMod)})`
+        : `${document.getElementById("cs-armor-name").value||"ARMOR"} ACTIVE // REFLEX USING ${refChoice} // DEX ${liveDexScore} CONTRIBUTES ${csSigned(dexForRef)}${maxDex===null?"":` // MAX DEX ${csSigned(maxDex)}`}`;
     document.getElementById("cs-level-out").textContent=cls.level;
     document.getElementById("cs-bab-out").textContent=csSigned(cls.bab);
     document.getElementById("cs-dt-out").textContent=fort;
@@ -4167,7 +4237,13 @@ function recalculateWeapons(){
 }
 
 function rollD20(){return Math.floor(Math.random()*20)+1}
-async function rollCharacterSkill(i){
+async function rollAbilityCheck(key,name){
+    const bonus=getAbilityMod(key),die=rollD20();
+    openCharacterModal(`${name.toUpperCase()} CHECK`,
+        `<div class="cs-roll-result">d20 ${die} ${csSigned(bonus)} = <b>${die+bonus}</b></div><div class="cs-help">Current ${name} modifier: ${csSigned(bonus)}</div>`,
+        rulesUrl(name));
+}
+function rollCharacterSkill(i){
     const [name]=CS_SKILLS[i];
     const bonus=Number(document.getElementById(`cs-skill-total-${i}`).textContent)||0;
     const die=rollD20();
@@ -4202,10 +4278,6 @@ async function rollCharacterSkill(i){
         const box=document.getElementById("cs-skill-rule-text");
         if(box) box.textContent="SKILL REFERENCE LOOKUP FAILED.";
     }
-}
-function rollDefenseSave(kind){
-    const total=Number(document.getElementById(`cs-${kind}`).textContent)||10, bonus=total-10, die=rollD20();
-    openCharacterModal(`${kind.toUpperCase()} CHECK`,`<div class="cs-roll-result">d20 ${die} ${csSigned(bonus)} = <b>${die+bonus}</b></div><div class="cs-help">Active check modifier uses Defense − 10. Your normal static ${kind} Defense remains ${total}.</div>`,rulesUrl(kind+" Defense"));
 }
 function rollWeapon(row){
     const m=weaponMath(row),die=rollD20(),name=row.querySelector(".cs-w-name").value||"Weapon";
