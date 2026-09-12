@@ -1,0 +1,1 @@
+Destiny Player Chronicle v1.5: corrected ability/species calculations, larger ability roll controls, and shared Starship Character Sheet.
