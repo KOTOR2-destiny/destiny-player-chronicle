@@ -3930,6 +3930,15 @@ let characterSheetRecord=null;
 let characterSheetSaveTimer=null;
 let characterSheetHydrating=false;
 
+function escapeHtml(value){
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
+
 const CS_ABILITIES=[
     ["str","STR","Strength"],["dex","DEX","Dexterity"],["con","CON","Constitution"],
     ["int","INT","Intelligence"],["wis","WIS","Wisdom"],["cha","CHA","Charisma"]
