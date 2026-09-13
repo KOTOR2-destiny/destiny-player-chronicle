@@ -1,0 +1,195 @@
+{
+  "schema_version": 1,
+  "library_name": "Destiny KOTOR-Era Saga Abilities",
+  "notes": "Mechanically detailed, paraphrased player reference. This first expansion contains options introduced by the Knights of the Old Republic Campaign Guide.",
+  "rules": [
+    {
+      "id": "feat-accelerated-strike", "name": "Accelerated Strike", "type": "feat", "era": "kotor", "description": "Compress an otherwise time-consuming series of attacks into a standard action once each encounter.", "repeatable": false,
+      "prerequisites": {"level": null, "bab": 6, "abilities": {}, "trained_skills": [], "feats": [], "talents": [], "special": []},
+      "mechanics": {"use": "Once per encounter, declare when taking a full attack.", "cost": "Standard action instead of the full-round action normally required.", "effect": "Resolve your full attack, including every attack you are entitled to make.", "special": "Every weapon used in that full attack must be one with which you are proficient. Jedi and Soldiers may select this as a class bonus feat."},
+      "source": {"name": "Knights of the Old Republic Campaign Guide, p. 32", "url": "https://sagaedition.info/wiki/Accelerated_Strike_(feat)"}
+    },
+    {
+      "id": "feat-conditioning", "name": "Conditioning", "type": "feat", "era": "kotor", "description": "Superior conditioning improves trained physical skills and can briefly reinforce your Fortitude Defense.", "repeatable": false,
+      "prerequisites": {"level": null, "bab": null, "abilities": {"str": 13, "con": 13}, "trained_skills": [], "feats": [], "talents": [], "special": []},
+      "mechanics": {"use": "Reroll applicable checks whenever made; defensive use is a reaction once per encounter.", "trigger": "A Strength- or Constitution-based check with a skill in which you are trained, or an effect against Fortitude Defense.", "effect": "You may reroll the qualifying trained skill check, but must accept the second result. For the defensive use, add your Strength bonus to Fortitude Defense.", "duration": "The Fortitude bonus lasts until the beginning of your next turn.", "special": "Scout and Soldier bonus feat."},
+      "source": {"name": "Knights of the Old Republic Campaign Guide, p. 32", "url": "https://sagaedition.info/wiki/Conditioning_(feat)"}
+    },
+    {
+      "id": "feat-critical-strike", "name": "Critical Strike", "type": "feat", "era": "kotor", "description": "Spend time lining up a melee blow to expand its critical threat range.", "repeatable": false,
+      "prerequisites": {"level": null, "bab": 9, "abilities": {}, "trained_skills": [], "feats": ["Weapon Focus (selected melee weapon or weapon group)"], "talents": [], "special": ["Proficient with the melee weapon used"]},
+      "mechanics": {"use": "Take two consecutive swift actions in one round before the attack.", "target": "The target of your next melee attack.", "effect": "Increase the critical range of that next melee attack by 1; normally this means a natural 19 or 20 can be a critical hit.", "special": "A natural 19 is not an automatic hit: it must still equal or exceed Reflex Defense. The setup is lost if you take another action or lose line of sight before attacking. Jedi and Soldier bonus feat."},
+      "source": {"name": "Knights of the Old Republic Campaign Guide, p. 32", "url": "https://sagaedition.info/wiki/Critical_Strike_(feat)"}
+    },
+    {
+      "id": "feat-echani-training", "name": "Echani Training", "type": "feat", "era": "kotor", "description": "An Echani fighting style that rewards a single committed unarmed strike and can sweep an opponent from their feet.", "repeatable": false,
+      "prerequisites": {"level": null, "bab": null, "abilities": {"dex": 13}, "trained_skills": [], "feats": ["Martial Arts I"], "talents": [], "special": []},
+      "mechanics": {"use": "Passive damage benefit when making only one unarmed attack during the turn; the knockdown attempt is a free action once per encounter after dealing unarmed damage.", "target": "A creature no more than one size category larger than you.", "check": "Make an immediate unarmed attack roll against the target's Fortitude Defense.", "effect": "For the single-attack benefit, double the damage contribution from your Strength bonus, with at least +1 Strength-derived damage. If the follow-up attack beats Fortitude, knock the target prone in its current square.", "special": "Fortitude gains +5 Large, +10 Huge, +20 Gargantuan, or +50 Colossal; an unusually stable target gains another +5."},
+      "source": {"name": "Knights of the Old Republic Campaign Guide, p. 33", "url": "https://sagaedition.info/wiki/Echani_Training_(feat)"}
+    },
+    {
+      "id": "feat-flurry", "name": "Flurry", "type": "feat", "era": "kotor", "description": "Trade defense for a burst of accuracy with light melee weapons or lightsabers.", "repeatable": false,
+      "prerequisites": {"level": null, "bab": null, "abilities": {"dex": 13}, "trained_skills": [], "feats": [], "talents": [], "special": []},
+      "mechanics": {"use": "Declare while wielding only light weapons or lightsabers.", "effect": "Gain +2 on melee attack rolls and take -5 to Reflex Defense.", "duration": "Both modifiers last until the start of your next turn.", "special": "May substitute for Point Blank Shot when qualifying for Elite Trooper. Jedi, Noble, and Soldier bonus feat."},
+      "source": {"name": "Knights of the Old Republic Campaign Guide, p. 33", "url": "https://sagaedition.info/wiki/Flurry_(feat)"}
+    },
+    {
+      "id": "feat-force-readiness", "name": "Force Readiness", "type": "feat", "era": "kotor", "force_related": true, "description": "Your Force Points are available even when an effect occurs outside your own turn.", "repeatable": false,
+      "prerequisites": {"level": null, "bab": null, "abilities": {}, "trained_skills": [], "feats": [], "talents": [], "special": []},
+      "mechanics": {"use": "Free action, including when it is not your turn.", "effect": "You may spend Force Points outside your turn, allowing them to modify eligible attacks, checks, reactions, or abilities made then.", "special": "This changes timing only; every normal limit on spending Force Points still applies. Jedi bonus feat. Destiny's Jedi-level story gate applies."},
+      "source": {"name": "Knights of the Old Republic Campaign Guide, p. 33", "url": "https://sagaedition.info/wiki/Force_Readiness_(feat)"}
+    },
+    {
+      "id": "feat-gearhead", "name": "Gearhead", "type": "feat", "era": "kotor", "description": "Once per encounter, complete a Mechanics or Use Computer task one action category faster.", "repeatable": false,
+      "prerequisites": {"level": null, "bab": null, "abilities": {}, "trained_skills": [], "feats": [], "talents": [], "special": []},
+      "mechanics": {"use": "Once per encounter when beginning a Mechanics or Use Computer check.", "effect": "Full-round becomes standard; standard becomes move; move becomes swift; a task requiring multiple swift actions costs one fewer swift action.", "special": "A task longer than one round takes half its normal time instead, but the check suffers -10. Scoundrel and Scout bonus feat."},
+      "source": {"name": "Knights of the Old Republic Campaign Guide, p. 33", "url": "https://sagaedition.info/wiki/Gearhead_(feat)"}
+    },
+    {
+      "id": "feat-implant-training", "name": "Implant Training", "type": "feat", "era": "kotor", "description": "Your body has adapted to a cybernetic implant, removing its additional condition-track vulnerability.", "repeatable": false,
+      "prerequisites": {"level": null, "bab": null, "abilities": {}, "trained_skills": [], "feats": [], "talents": [], "special": ["Possess a cybernetic implant"]},
+      "mechanics": {"use": "Always active while you possess the implant.", "effect": "When an effect moves you down the condition track, the implant no longer causes you to move one additional step.", "special": "This removes the implant's extra step; it does not prevent the normal condition movement caused by the triggering effect. Scoundrel bonus feat."},
+      "source": {"name": "Knights of the Old Republic Campaign Guide, p. 33", "url": "https://sagaedition.info/wiki/Implant_Training_(feat)"}
+    },
+    {
+      "id": "feat-improved-rapid-strike", "name": "Improved Rapid Strike", "type": "feat", "era": "kotor", "description": "A more forceful Rapid Strike with a light melee weapon or lightsaber.", "repeatable": false,
+      "prerequisites": {"level": null, "bab": null, "abilities": {}, "trained_skills": [], "feats": ["Rapid Strike"], "talents": [], "special": ["Use a light melee weapon or lightsaber"]},
+      "mechanics": {"use": "Choose when making a Rapid Strike with a light melee weapon or lightsaber.", "cost": "Take -5 on the attack roll, or -10 if Dexterity is below 13.", "effect": "On a hit, add two weapon-damage dice.", "special": "Does not stack with ordinary Rapid Strike bonus damage or another extra-damage option that itself cannot stack with Rapid Strike, such as Mighty Swing. Jedi and Soldier bonus feat."},
+      "source": {"name": "Knights of the Old Republic Campaign Guide, p. 33", "url": "https://sagaedition.info/wiki/Improved_Rapid_Strike_(feat)"}
+    },
+    {
+      "id": "feat-increased-agility", "name": "Increased Agility", "type": "feat", "era": "kotor", "description": "Move farther while climbing, swimming, or jumping and defend normally while climbing.", "repeatable": false,
+      "prerequisites": {"level": null, "bab": null, "abilities": {}, "trained_skills": [], "feats": ["Conditioning"], "talents": [], "special": []},
+      "mechanics": {"use": "Always active.", "effect": "Increase Climb speed, Swim speed, and Jump distance by 2 squares. Retain your Dexterity bonus to Reflex Defense while climbing.", "special": "Scout and Soldier bonus feat."},
+      "source": {"name": "Knights of the Old Republic Campaign Guide, p. 33", "url": "https://sagaedition.info/wiki/Increased_Agility_(feat)"}
+    },
+    {
+      "id": "feat-logic-upgrade-self-defense", "name": "Logic Upgrade: Self Defense", "type": "feat", "era": "kotor", "description": "A droid defensive subroutine that reinforces one defense at the moment it is needed.", "repeatable": false,
+      "prerequisites": {"level": null, "bab": null, "abilities": {}, "trained_skills": [], "feats": [], "talents": [], "special": ["Droids only"]},
+      "mechanics": {"use": "Reaction, once per encounter.", "effect": "Choose Fortitude, Reflex, or Will Defense and gain a +2 morale bonus to that Defense.", "duration": "Until the end of your next turn.", "special": "The defense is chosen each time the feat is activated."},
+      "source": {"name": "Knights of the Old Republic Campaign Guide, p. 34", "url": "https://sagaedition.info/wiki/Logic_Upgrade:_Self_Defense_(feat)"}
+    },
+    {
+      "id": "feat-logic-upgrade-tactician", "name": "Logic Upgrade: Tactician", "type": "feat", "era": "kotor", "description": "A droid tactical routine makes one assisted attack far more accurate.", "repeatable": false,
+      "prerequisites": {"level": null, "bab": 4, "abilities": {}, "trained_skills": [], "feats": [], "talents": [], "special": ["Droids only"]},
+      "mechanics": {"use": "Once per encounter when using aid another to assist an ally's attack.", "target": "One ally making its next attack against the opponent you helped against.", "effect": "A successful aid another grants +5 to that attack instead of the normal +2.", "special": "All normal requirements for aiding another on an attack still apply."},
+      "source": {"name": "Knights of the Old Republic Campaign Guide, p. 34", "url": "https://sagaedition.info/wiki/Logic_Upgrade:_Tactician_(feat)"}
+    },
+    {
+      "id": "feat-mandalorian-training", "name": "Mandalorian Training", "type": "feat", "era": "kotor", "description": "Improve a ranged charge and harden your resolve after committing to it.", "repeatable": false,
+      "prerequisites": {"level": null, "bab": null, "abilities": {}, "trained_skills": [], "feats": ["Charging Fire"], "talents": [], "special": []},
+      "mechanics": {"use": "When using Charging Fire.", "effect": "Gain +2 on the ranged attack made at the end of the charge and +2 morale to Will Defense.", "duration": "The Will bonus lasts until the beginning of your next turn.", "special": "You still take the normal -2 Reflex Defense penalty for charging."},
+      "source": {"name": "Knights of the Old Republic Campaign Guide, p. 34", "url": "https://sagaedition.info/wiki/Mandalorian_Training_(feat)"}
+    },
+    {
+      "id": "feat-poison-resistance", "name": "Poison Resistance", "type": "feat", "era": "kotor", "description": "Resist poisonous attacks and reduce their damage when resistance fails.", "repeatable": false,
+      "prerequisites": {"level": null, "bab": null, "abilities": {"con": 13}, "trained_skills": [], "feats": [], "talents": [], "special": []},
+      "mechanics": {"use": "Always active against poison attacks.", "effect": "Gain +5 Fortitude Defense against poison. If the poison attack still succeeds, take half of its damage.", "special": "Scoundrel and Scout bonus feat."},
+      "source": {"name": "Knights of the Old Republic Campaign Guide, p. 34", "url": "https://sagaedition.info/wiki/Poison_Resistance_(feat)"}
+    },
+    {
+      "id": "feat-power-blast", "name": "Power Blast", "type": "feat", "era": "kotor", "description": "Trade ranged accuracy for an equal increase in ranged damage.", "repeatable": false,
+      "prerequisites": {"level": null, "bab": null, "abilities": {}, "trained_skills": [], "feats": [], "talents": [], "special": []},
+      "mechanics": {"use": "Swift action before making ranged attacks.", "cost": "Choose an attack penalty no greater than your base attack bonus.", "effect": "Apply the chosen penalty to all ranged attack rolls and the same number as a bonus to all qualifying ranged damage rolls.", "duration": "Until the start of your next turn.", "special": "No bonus damage on area attacks or attacks against objects or vehicles. With a non-vehicle weapon and Strength below 13, the attack penalty is fixed at -5. Soldier bonus feat."},
+      "source": {"name": "Knights of the Old Republic Campaign Guide, p. 34", "url": "https://sagaedition.info/wiki/Power_Blast_(feat)"}
+    },
+    {
+      "id": "feat-quick-skill", "name": "Quick Skill", "type": "feat", "era": "kotor", "description": "Once per encounter, rely on trained competence under pressure or complete a painstaking task in far less time.", "repeatable": false,
+      "prerequisites": {"level": null, "bab": null, "abilities": {}, "trained_skills": [], "feats": [], "talents": [], "special": []},
+      "mechanics": {"use": "Once per encounter with a skill in which you are trained.", "effect": "Either take 10 despite being rushed, or take 20 in half the time normally required.", "special": "Cannot override a skill rule that expressly forbids taking 10. Taking 20 normally costs twenty times the standard check time. Noble and Scoundrel bonus feat."},
+      "source": {"name": "Knights of the Old Republic Campaign Guide, p. 34", "url": "https://sagaedition.info/wiki/Quick_Skill_(feat)"}
+    },
+    {
+      "id": "feat-republic-military-training", "name": "Republic Military Training", "type": "feat", "era": "kotor", "description": "Use cover to absorb the brunt of an incoming attack.", "repeatable": false,
+      "prerequisites": {"level": null, "bab": null, "abilities": {}, "trained_skills": [], "feats": [], "talents": [], "special": []},
+      "mechanics": {"use": "Reaction, once per encounter.", "trigger": "You are targeted by an incoming attack and have cover from that attacker.", "effect": "Gain DR 10 against the triggering attack.", "special": "The feat still works if the attacker aimed to ignore the cover bonus to your Reflex Defense; actual cover must nevertheless exist."},
+      "source": {"name": "Knights of the Old Republic Campaign Guide, p. 35", "url": "https://sagaedition.info/wiki/Republic_Military_Training_(feat)"}
+    },
+    {
+      "id": "feat-sith-military-training", "name": "Sith Military Training", "type": "feat", "era": "kotor", "description": "Turn a brutal takedown into a moment of fear that weakens nearby enemies.", "repeatable": false,
+      "prerequisites": {"level": null, "bab": null, "abilities": {}, "trained_skills": [], "feats": [], "talents": [], "special": []},
+      "mechanics": {"use": "Reaction, once per encounter.", "trigger": "You reduce a target to 0 hit points or deal damage equal to or greater than its Damage Threshold.", "target": "Every enemy within 6 squares of the triggering target.", "effect": "Affected enemies take -2 to all Defenses.", "duration": "Until the end of your next turn.", "special": "Mind-affecting effect; immune creatures are unaffected."},
+      "source": {"name": "Knights of the Old Republic Campaign Guide, p. 35", "url": "https://sagaedition.info/wiki/Sith_Military_Training_(feat)"}
+    },
+    {
+      "id": "feat-sniper-shot", "name": "Sniper Shot", "type": "feat", "era": "kotor", "description": "Expose yourself to gain accuracy with a non-heavy ranged weapon.", "repeatable": false,
+      "prerequisites": {"level": null, "bab": null, "abilities": {}, "trained_skills": [], "feats": [], "talents": [], "special": ["Proficient with the ranged weapon used"]},
+      "mechanics": {"use": "Declare while wielding only weapons with which you are proficient.", "effect": "Gain +2 on your ranged attack and take -5 to Reflex Defense.", "duration": "The Reflex penalty lasts until the beginning of your next turn.", "special": "Cannot be used with heavy weapons or vehicle weapons. Scoundrel and Soldier bonus feat."},
+      "source": {"name": "Knights of the Old Republic Campaign Guide, p. 35", "url": "https://sagaedition.info/wiki/Sniper_Shot_(feat)"}
+    },
+    {
+      "id": "feat-tumble-defense", "name": "Tumble Defense", "type": "feat", "era": "kotor", "description": "Make it harder for enemies to tumble safely through the area threatened by your melee weapon.", "repeatable": false,
+      "prerequisites": {"level": null, "bab": null, "abilities": {}, "trained_skills": [], "feats": [], "talents": [], "special": ["Proficient with the melee weapon used"]},
+      "mechanics": {"use": "Passive while threatening squares with a melee weapon.", "trigger": "An opponent attempts to tumble through a square you threaten.", "effect": "Add your base attack bonus to the DC of the opponent's Acrobatics check. On a failed check, you may make the normal attack of opportunity.", "special": "Does not function while you are flat-footed. Jedi and Soldier bonus feat."},
+      "source": {"name": "Knights of the Old Republic Campaign Guide, p. 35", "url": "https://sagaedition.info/wiki/Tumble_Defense_(feat)"}
+    },
+    {
+      "id": "feat-withdrawal-strike", "name": "Withdrawal Strike", "type": "feat", "era": "kotor", "description": "Prevent adjacent opponents from using the withdraw action safely against your chosen melee weapon family.", "repeatable": true,
+      "choice": {"type": "melee_exotic_weapon_or_weapon_group", "required": true, "different_each_time": true},
+      "prerequisites": {"level": null, "bab": 5, "abilities": {}, "trained_skills": [], "feats": [], "talents": [], "special": ["Proficient with the selected melee weapon or group"]},
+      "mechanics": {"use": "Always active while wielding a melee weapon from the group or exotic weapon chosen when taking this feat.", "target": "Adjacent opponents in squares you threaten.", "effect": "Those opponents cannot use withdraw to leave your threatened squares.", "special": "They may still attempt to tumble with Acrobatics. Select one exotic weapon or weapon group each time. Jedi and Soldier bonus feat."},
+      "source": {"name": "Knights of the Old Republic Campaign Guide, p. 34", "url": "https://sagaedition.info/wiki/Withdrawl_Strike_(feat)"}
+    },
+
+    {
+      "id": "power-energy-resistance", "name": "Energy Resistance", "type": "force power", "era": "kotor", "force_related": true, "description": "Wrap yourself in the Force to reduce energy, sonic, fire, cold, and electrical damage.", "repeatable": true, "descriptors": [],
+      "prerequisites": {"feats": ["Force Training"]},
+      "mechanics": {"time": "Standard action.", "target": "You.", "check": "Use the Force DC 20/25/30/35.", "effect": "Gain DR 5/10/15/20, respectively, against the listed energy damage types.", "duration": "Until the beginning of your next turn; maintain each round with a swift action.", "special": "Spend a Force Point to activate as a swift action. If damaged while maintaining, make Use the Force DC 15 + damage taken or maintenance ends."},
+      "source": {"name": "Knights of the Old Republic Campaign Guide, p. 50", "url": "https://sagaedition.info/wiki/Energy_Resistance_(force_power)"}
+    },
+    {
+      "id": "power-fear", "name": "Fear", "type": "force power", "era": "kotor", "force_related": true, "description": "Dark-side fear sharply restricts what an enemy can do on its next turn.", "repeatable": true, "descriptors": ["dark side", "mind-affecting"],
+      "prerequisites": {"feats": ["Force Training"]},
+      "mechanics": {"time": "Swift action.", "target": "One creature within 12 squares and line of sight.", "check": "Use the Force must both meet the target's Will Defense and reach the desired tier: DC 15/20/25/30.", "effect": "On its next turn the target may take, respectively, only one standard action / only one move action / only one swift action / no actions.", "duration": "Through the target's next turn.", "special": "Fear and mind-affecting effect. Spend a Force Point after a successful use to impose -2 to all of the target's Defenses until the beginning of your next turn. Dark-side use increases Dark Side Score by 1 and cannot have its activation check modified by a Force Point."},
+      "source": {"name": "Knights of the Old Republic Campaign Guide, p. 50", "url": "https://sagaedition.info/wiki/Fear_(force_power)"}
+    },
+    {
+      "id": "power-force-scream", "name": "Force Scream", "type": "force power", "era": "kotor", "force_related": true, "description": "A Force-amplified scream damages creatures that hear it and lowers their Damage Threshold.", "repeatable": true, "descriptors": ["dark side"],
+      "prerequisites": {"feats": ["Force Training"]},
+      "mechanics": {"time": "Standard action.", "target": "Every creature within 12 squares that can hear you.", "check": "One Use the Force check compared with each target's Fortitude Defense; it must also reach DC 15/20/25/30.", "effect": "A target whose Fortitude is met takes 1d6/2d6/3d6/4d6 Force damage and has Damage Threshold reduced by 5.", "duration": "Damage Threshold reduction lasts until the end of your next turn.", "special": "Fortitude size modifier: +5 Large, +10 Huge, +20 Gargantuan, +50 Colossal. Spend a Force Point to reduce Damage Threshold by 10 instead. Dark-side restrictions apply."},
+      "source": {"name": "Knights of the Old Republic Campaign Guide, p. 50", "url": "https://sagaedition.info/wiki/Force_Scream_(force_power)"}
+    },
+    {
+      "id": "power-force-whirlwind", "name": "Force Whirlwind", "type": "force power", "era": "kotor", "force_related": true, "description": "Suspend a target in a telekinetic vortex that immobilizes, hinders, damages, and finally drops it prone.", "repeatable": true, "descriptors": ["telekinetic"],
+      "prerequisites": {"feats": ["Force Training"]},
+      "mechanics": {"time": "Standard action; move action to maintain.", "target": "One creature or droid within 12 squares and line of sight.", "check": "Use the Force must meet Fortitude Defense and reach DC 15/20/25/30.", "effect": "Immobilize the target; its attacks and skill checks take -5; deal 1d6/2d6/3d6/4d6 Force damage at the end of your turn. It falls prone when the effect ends.", "duration": "Until the beginning of your next turn, extendable by a new check each round.", "special": "Fortitude size modifier: +5 Large, +10 Huge, +20 Gargantuan, +50 Colossal. Force Point changes the action/skill penalty to -10. Damage while maintaining requires DC 15 + damage taken. If you or an ally attacks, damages, or moves the captive down the condition track, the whirlwind ends immediately."},
+      "source": {"name": "Knights of the Old Republic Campaign Guide, p. 51", "url": "https://sagaedition.info/wiki/Force_Whirlwind_(force_power)"}
+    },
+    {
+      "id": "power-ionize", "name": "Ionize", "type": "force power", "era": "kotor", "force_related": true, "description": "Overload an electronic target with ion damage through the Force.", "repeatable": true, "descriptors": [],
+      "prerequisites": {"feats": ["Force Training"]},
+      "mechanics": {"time": "Standard action.", "target": "One target within 6 squares and line of sight.", "check": "Use the Force must meet Reflex Defense and reach DC 20/25/30.", "effect": "Deal 4d6/5d6/6d6 ion damage, respectively.", "special": "Spend a Force Point to add 2d6 ion damage. Resolve ion damage under the normal ion-damage rules."},
+      "source": {"name": "Knights of the Old Republic Campaign Guide, p. 51", "url": "https://sagaedition.info/wiki/Ionize_(force_power)"}
+    },
+    {
+      "id": "power-kinetic-combat", "name": "Kinetic Combat", "type": "force power", "era": "kotor", "force_related": true, "description": "Telekinetically wield a one-handed melee weapon at a distance using Charisma in place of physical strength.", "repeatable": true, "descriptors": ["telekinetic"],
+      "prerequisites": {"feats": ["Force Training"]},
+      "mechanics": {"time": "Standard action; swift action to maintain, plus a standard action to direct it each maintained round.", "target": "You and one one-handed melee weapon you hold.", "check": "Use the Force DC 20. Initial attack bonus is base attack bonus + Charisma modifier.", "effect": "Move the weapon up to 12 squares and attack. Damage is normal weapon damage + half heroic level, substituting Charisma modifier for Strength. The weapon threatens adjacent squares and can make your attacks of opportunity.", "duration": "Maintain round to round; the weapon must remain within 12 squares.", "special": "While maintained, direct it up to 6 squares and make one adjacent attack. Feats and talents that normally enhance weapon use do not apply. Damage while maintaining requires DC 15 + damage taken. Spend a Force Point for +1 on attacks made this way."},
+      "source": {"name": "Knights of the Old Republic Campaign Guide, p. 51", "url": "https://sagaedition.info/wiki/Kinetic_Combat_(force_power)"}
+    },
+    {
+      "id": "power-resist-force", "name": "Resist Force", "type": "force power", "era": "kotor", "force_related": true, "description": "Reinforce one or more Defenses specifically against hostile Force powers.", "repeatable": true, "descriptors": [],
+      "prerequisites": {"feats": ["Force Training"]},
+      "mechanics": {"time": "Standard action; swift action to maintain each active instance.", "target": "You.", "check": "Use the Force DC 15/20/25.", "effect": "Choose one Defense and gain +1/+2/+5 against Force powers used against you.", "duration": "Until the beginning of your next turn, extendable by maintenance.", "special": "Spend a Force Point to apply the bonus to two chosen Defenses. Multiple separately activated instances can coexist, but each costs its own swift action to maintain. Damage while maintaining requires DC 15 + damage taken."},
+      "source": {"name": "Knights of the Old Republic Campaign Guide, p. 51", "url": "https://sagaedition.info/wiki/Resist_Force_(force_power)"}
+    },
+    {
+      "id": "power-slow", "name": "Slow", "type": "force power", "era": "kotor", "force_related": true, "description": "Telekinetically burden a target, reducing speed and imposing the penalties of a heavy load.", "repeatable": true, "descriptors": ["telekinetic"],
+      "prerequisites": {"feats": ["Force Training"]},
+      "mechanics": {"time": "Standard action.", "target": "One creature or droid within 12 squares and line of sight.", "check": "Use the Force must meet Fortitude Defense and reach DC 15/20/25/30.", "effect": "Reduce speed by 1/2/3/4 squares and treat the target as carrying a heavy load: -10 on Acrobatics, Climb, Endurance, Initiative, Jump, Stealth, and Swim checks.", "duration": "Until the beginning of your next turn.", "special": "Fortitude size modifier: +5 Large, +10 Huge, +20 Gargantuan, +50 Colossal. Spend a Force Point to treat the target's Fortitude Defense as 5 lower for this activation."},
+      "source": {"name": "Knights of the Old Republic Campaign Guide, p. 52", "url": "https://sagaedition.info/wiki/Slow_(force_power)"}
+    },
+    {
+      "id": "power-valor", "name": "Valor", "type": "force power", "era": "kotor", "force_related": true, "description": "Bolster an ally's Will Defense against fear and mental influence.", "repeatable": true, "descriptors": ["light side"],
+      "prerequisites": {"feats": ["Force Training"]},
+      "mechanics": {"time": "Standard action; swift action to maintain each active instance.", "target": "One creature or droid within 12 squares and line of sight.", "check": "Use the Force DC 15/20/25/30.", "effect": "Target gains +1/+2/+5/+10 Will Defense against mind-affecting and fear effects.", "duration": "Until the start of your next turn, extendable by maintenance.", "special": "Spend a Force Point on activation so the bonus applies against every effect targeting Will Defense. You may maintain separate instances on different allies, each costing a swift action. Damage while maintaining requires DC 15 + damage taken. Light-side Force Point restriction applies if you have a Dark Side Score."},
+      "source": {"name": "Knights of the Old Republic Campaign Guide, p. 52", "url": "https://sagaedition.info/wiki/Valor_(force_power)"}
+    },
+    {
+      "id": "power-wound", "name": "Wound", "type": "force power", "era": "kotor", "force_related": true, "description": "Inflict painful internal injury and make any resulting condition-track loss persistent.", "repeatable": true, "descriptors": ["dark side"],
+      "prerequisites": {"feats": ["Force Training"]},
+      "mechanics": {"time": "Standard action.", "target": "One creature or droid within 6 squares and line of sight.", "check": "Use the Force vs. Fortitude Defense.", "effect": "On success, deal 4d6 Force damage. If the target is moved down the condition track by the damage, that condition becomes persistent.", "duration": "The persistent condition remains until removed by surgery with a DC 20 Treat Injury check.", "special": "Fortitude size modifier: +5 Large, +10 Huge, +20 Gargantuan, +50 Colossal. Spend a Force Point for +2d6 damage. Dark-side restrictions apply."},
+      "source": {"name": "Knights of the Old Republic Campaign Guide, p. 52", "url": "https://sagaedition.info/wiki/Wound_(force_power)"}
+    }
+  ]
+}
