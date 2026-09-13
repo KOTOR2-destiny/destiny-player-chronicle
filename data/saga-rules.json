@@ -1,39 +1,20 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "library_name": "Destiny Saga Edition Rules Library",
-  "notes": "Machine-readable rules data for exact Chronicle references and prerequisite validation. Expand only with verified Saga Edition rules.",
+  "notes": "Machine-readable rules data for exact Chronicle references and prerequisite validation. Entries are expanded only from verified Saga Edition rules sources.",
   "rules": [
-    {
-      "id": "talent-devastating-attack",
-      "name": "Devastating Attack",
-      "type": "talent",
-      "talent_tree": "Weapon Specialist",
-      "description": "Choose a single Exotic Weapon or weapon group with which you are proficient. Whenever you make a successful attack against a target using that weapon, treat the target's Damage Threshold as 5 points lower when determining the result of the attack.",
-      "repeatable": true,
-      "choice": {"type":"weapon_or_weapon_group","required":true,"different_each_time":true},
-      "prerequisites": {"level":null,"bab":null,"abilities":{},"trained_skills":[],"feats":[],"talents":[],"special":["Proficient with selected Exotic Weapon or weapon group"]},
-      "source": {"name":"Saga Edition RPG Omnibus — Weapon Specialist Talent Tree","url":"https://sagaedition.info/wiki/Weapon_Specialist_%28talent_tree%29"}
-    },
-    {
-      "id": "talent-knack",
-      "name": "Knack",
-      "type": "talent",
-      "talent_tree": "Fortune",
-      "description": "Once per day, you can reroll a skill check and take the better result. You can select this talent multiple times; each time you select it, you can use it one additional time per day.",
-      "repeatable": true,
-      "choice": null,
-      "prerequisites": {"level":null,"bab":null,"abilities":{},"trained_skills":[],"feats":[],"talents":[],"special":[]},
-      "source": {"name":"Saga Edition RPG Omnibus — Fortune Talent Tree","url":"https://sagaedition.info/wiki/Fortune_%28talent_tree%29"}
-    },
-    {
-      "id": "feat-point-blank-shot",
-      "name": "Point Blank Shot",
-      "type": "feat",
-      "description": "You gain a +1 bonus on attack rolls and damage rolls with ranged weapons against targets within point-blank range.",
-      "repeatable": false,
-      "choice": null,
-      "prerequisites": {"level":null,"bab":null,"abilities":{},"trained_skills":[],"feats":[],"talents":[],"special":[]},
-      "source": {"name":"Saga Edition RPG Omnibus — Point Blank Shot","url":"https://sagaedition.info/wiki/Point_Blank_Shot"}
-    }
+    {"id":"talent-devastating-attack","name":"Devastating Attack","type":"talent","talent_tree":"Weapon Specialist","description":"Choose a single Exotic Weapon or weapon group with which you are proficient. Whenever you make a successful attack against a target using that weapon, treat the target's Damage Threshold as 5 points lower when determining the result of the attack.","repeatable":true,"choice":{"type":"weapon_or_weapon_group","required":true,"different_each_time":true},"prerequisites":{"level":null,"bab":null,"abilities":{},"trained_skills":[],"feats":[],"talents":[],"special":["Proficient with selected Exotic Weapon or weapon group"]},"source":{"name":"Saga Edition RPG Omnibus — Weapon Specialist Talent Tree","url":"https://sagaedition.info/wiki/Weapon_Specialist_%28talent_tree%29"}},
+    {"id":"talent-weapon-specialization","name":"Weapon Specialization","type":"talent","talent_tree":"Weapon Specialist","description":"Choose a single Exotic Weapon or weapon group with which you are proficient. You gain a +2 bonus on damage rolls with the selected weapon or weapon group.","repeatable":true,"choice":{"type":"weapon_or_weapon_group","required":true,"different_each_time":true},"prerequisites":{"level":null,"bab":null,"abilities":{},"trained_skills":[],"feats":["Weapon Focus (selected weapon or weapon group)"],"talents":[],"special":["Proficient with selected Exotic Weapon or weapon group"]},"source":{"name":"Saga Edition RPG Omnibus — Weapon Specialist Talent Tree","url":"https://sagaedition.info/wiki/Weapon_Specialist_%28talent_tree%29"}},
+    {"id":"talent-knack","name":"Knack","type":"talent","talent_tree":"Fortune","description":"Once per day, you can reroll a skill check and take the better result. You can select this talent multiple times; each time you select it, you can use it one additional time per day.","repeatable":true,"choice":null,"prerequisites":{"level":null,"bab":null,"abilities":{},"trained_skills":[],"feats":[],"talents":[],"special":[]},"source":{"name":"Saga Edition RPG Omnibus — Fortune Talent Tree","url":"https://sagaedition.info/wiki/Fortune_%28talent_tree%29"}},
+    {"id":"talent-acute-senses","name":"Acute Senses","type":"talent","talent_tree":"Awareness","description":"You may reroll any Perception check, but you must keep the result of the reroll even if it is worse.","repeatable":false,"choice":null,"prerequisites":{"level":null,"bab":null,"abilities":{},"trained_skills":[],"feats":[],"talents":[],"special":[]},"source":{"name":"Saga Edition RPG Omnibus — Awareness Talent Tree","url":"https://sagaedition.info/wiki/Awareness_%28talent_tree%29"}},
+    {"id":"talent-improved-initiative","name":"Improved Initiative","type":"talent","talent_tree":"Awareness","description":"You may reroll any Initiative check, but you must keep the result of the reroll even if it is worse.","repeatable":false,"choice":null,"prerequisites":{"level":null,"bab":null,"abilities":{},"trained_skills":[],"feats":[],"talents":["Acute Senses"],"special":[]},"source":{"name":"Saga Edition RPG Omnibus — Awareness Talent Tree","url":"https://sagaedition.info/wiki/Awareness_%28talent_tree%29"}},
+    {"id":"talent-indomitable","name":"Indomitable","type":"talent","talent_tree":"Commando","description":"Once per day as a swift action, move +5 steps on the condition track. This does not remove persistent conditions that prevent movement up the condition track.","repeatable":false,"choice":null,"prerequisites":{"level":null,"bab":null,"abilities":{},"trained_skills":[],"feats":[],"talents":[],"special":[]},"source":{"name":"Saga Edition RPG Omnibus — Commando Talent Tree","url":"https://sagaedition.info/wiki/Commando_%28talent_tree%29"}},
+    {"id":"talent-block","name":"Block","type":"talent","talent_tree":"Lightsaber Combat","description":"As a reaction, you may negate a melee attack by making a Use the Force check. The DC equals the result of the attack roll you wish to negate. You must have a drawn and ignited lightsaber and be aware of the attack.","repeatable":false,"choice":null,"prerequisites":{"level":null,"bab":null,"abilities":{},"trained_skills":[],"feats":[],"talents":[],"special":["Drawn and ignited lightsaber required to use the talent"]},"source":{"name":"Saga Edition RPG Omnibus — Lightsaber Combat Talent Tree","url":"https://sagaedition.info/wiki/Lightsaber_Combat_%28talent_tree%29"}},
+    {"id":"feat-point-blank-shot","name":"Point Blank Shot","type":"feat","description":"You gain a +1 bonus on attack rolls and damage rolls with ranged weapons against targets within point-blank range.","repeatable":false,"choice":null,"prerequisites":{"level":null,"bab":null,"abilities":{},"trained_skills":[],"feats":[],"talents":[],"special":[]},"source":{"name":"Saga Edition RPG Omnibus — Point Blank Shot","url":"https://sagaedition.info/wiki/Point_Blank_Shot"}},
+    {"id":"feat-dodge","name":"Dodge","type":"feat","description":"You gain a +1 dodge bonus to your Reflex Defense against attacks made by one opponent you designate. You may designate a new opponent on your turn.","repeatable":false,"choice":null,"prerequisites":{"level":null,"bab":null,"abilities":{"dex":13},"trained_skills":[],"feats":[],"talents":[],"special":[]},"source":{"name":"Saga Edition RPG Omnibus — Dodge","url":"https://sagaedition.info/wiki/Dodge_%28feat%29"}},
+    {"id":"feat-skill-training","name":"Skill Training","type":"feat","description":"Choose one untrained skill from your class skill list. You become trained in that skill.","repeatable":true,"choice":{"type":"class_skill","required":true,"different_each_time":true},"prerequisites":{"level":null,"bab":null,"abilities":{},"trained_skills":[],"feats":[],"talents":[],"special":["Selected skill must be a class skill and not already trained"]},"source":{"name":"Saga Edition RPG Omnibus — Skill Training","url":"https://sagaedition.info/wiki/Skill_Training_%28feat%29"}},
+    {"id":"feat-skill-focus","name":"Skill Focus","type":"feat","description":"Choose one trained skill. You gain a +5 competence bonus on checks made with that skill.","repeatable":true,"choice":{"type":"trained_skill","required":true,"different_each_time":true},"prerequisites":{"level":null,"bab":null,"abilities":{},"trained_skills":["Selected skill"],"feats":[],"talents":[],"special":[]},"source":{"name":"Saga Edition RPG Omnibus — Skill Focus","url":"https://sagaedition.info/wiki/Skill_Focus_%28feat%29"}},
+    {"id":"feat-force-sensitivity","name":"Force Sensitivity","type":"feat","description":"You become Force-sensitive, may make Use the Force checks, and gain access to Force talents when you are eligible to select a talent.","repeatable":false,"choice":null,"prerequisites":{"level":null,"bab":null,"abilities":{},"trained_skills":[],"feats":[],"talents":[],"special":[]},"source":{"name":"Saga Edition RPG Omnibus — Force Sensitivity","url":"https://sagaedition.info/wiki/Force_Sensitivity_%28feat%29"}},
+    {"id":"feat-force-training","name":"Force Training","type":"feat","description":"You add a number of Force powers to your Force power suite equal to 1 + your Wisdom modifier (minimum 1). You may select this feat multiple times; each selection adds another set of powers.","repeatable":true,"choice":{"type":"force_powers","required":true,"count_formula":"max(1,1+wis_mod)"},"prerequisites":{"level":null,"bab":null,"abilities":{},"trained_skills":[],"feats":["Force Sensitivity"],"talents":[],"special":[]},"source":{"name":"Saga Edition RPG Omnibus — Force Training","url":"https://sagaedition.info/wiki/Force_Training_%28feat%29"}}
   ]
 }
