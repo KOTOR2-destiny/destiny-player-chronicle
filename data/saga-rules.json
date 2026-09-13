@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "library_name": "Destiny Saga Edition Rules Library",
+  "notes": "Machine-readable rules data for exact Chronicle references and prerequisite validation. Expand only with verified Saga Edition rules.",
+  "rules": [
+    {
+      "id": "talent-devastating-attack",
+      "name": "Devastating Attack",
+      "type": "talent",
+      "talent_tree": "Weapon Specialist",
+      "description": "Choose a single Exotic Weapon or weapon group with which you are proficient. Whenever you make a successful attack against a target using that weapon, treat the target's Damage Threshold as 5 points lower when determining the result of the attack.",
+      "repeatable": true,
+      "choice": {"type":"weapon_or_weapon_group","required":true,"different_each_time":true},
+      "prerequisites": {"level":null,"bab":null,"abilities":{},"trained_skills":[],"feats":[],"talents":[],"special":["Proficient with selected Exotic Weapon or weapon group"]},
+      "source": {"name":"Saga Edition RPG Omnibus — Weapon Specialist Talent Tree","url":"https://sagaedition.info/wiki/Weapon_Specialist_%28talent_tree%29"}
+    },
+    {
+      "id": "talent-knack",
+      "name": "Knack",
+      "type": "talent",
+      "talent_tree": "Fortune",
+      "description": "Once per day, you can reroll a skill check and take the better result. You can select this talent multiple times; each time you select it, you can use it one additional time per day.",
+      "repeatable": true,
+      "choice": null,
+      "prerequisites": {"level":null,"bab":null,"abilities":{},"trained_skills":[],"feats":[],"talents":[],"special":[]},
+      "source": {"name":"Saga Edition RPG Omnibus — Fortune Talent Tree","url":"https://sagaedition.info/wiki/Fortune_%28talent_tree%29"}
+    },
+    {
+      "id": "feat-point-blank-shot",
+      "name": "Point Blank Shot",
+      "type": "feat",
+      "description": "You gain a +1 bonus on attack rolls and damage rolls with ranged weapons against targets within point-blank range.",
+      "repeatable": false,
+      "choice": null,
+      "prerequisites": {"level":null,"bab":null,"abilities":{},"trained_skills":[],"feats":[],"talents":[],"special":[]},
+      "source": {"name":"Saga Edition RPG Omnibus — Point Blank Shot","url":"https://sagaedition.info/wiki/Point_Blank_Shot"}
+    }
+  ]
+}
