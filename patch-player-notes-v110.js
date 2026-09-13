@@ -76,5 +76,44 @@ window.deleteSubmission=async function(id){
     await loadState();
 };
 
-console.log('[DESTINY CHRONICLE v1.10] player-note lifecycle loaded');
+// v1.11 hotfix: repurpose the legacy XP field as Credits without changing its saved key.
+const xp=document.getElementById('cs-xp');
+if(xp){
+    const label=xp.closest('.cs-field')?.querySelector('.cs-label');
+    if(label)label.textContent='CREDITS';
+    xp.removeAttribute('min');
+}
+
+// v1.11 hotfix: live shared-starship updates through Supabase Realtime.
+let starshipRealtimeChannel=null;
+function ensureStarshipRealtime(){
+    if(starshipRealtimeChannel || !currentChronicleUser || !window.destinySupabase)return;
+    starshipRealtimeChannel=destinySupabase
+      .channel('destiny-starship-live')
+      .on('postgres_changes',{event:'UPDATE',schema:'public',table:'starship_sheets',filter:'lobby_key=eq.destiny-main'},payload=>{
+          const row=payload?.new;
+          if(!row || row.updated_by===currentChronicleUser.id)return;
+          const fields=row.sheet?.fields||{};
+          Object.entries(fields).forEach(([id,value])=>{
+              const el=document.getElementById(id);
+              if(el)el.value=value;
+          });
+          if(typeof recalcSS==='function')recalcSS();
+          const status=document.getElementById('ss-status');
+          if(status)status.textContent='LIVE UPDATE RECEIVED // '+new Date().toLocaleTimeString();
+      })
+      .subscribe();
+}
+
+const priorShow=window.showChronicleSection;
+if(typeof priorShow==='function'){
+    window.showChronicleSection=function(section){
+        const result=priorShow(section);
+        if(section==='starship')ensureStarshipRealtime();
+        return result;
+    };
+}
+setTimeout(ensureStarshipRealtime,1500);
+
+console.log('[DESTINY CHRONICLE v1.11] notes, credits label, and starship realtime loaded');
 })();
