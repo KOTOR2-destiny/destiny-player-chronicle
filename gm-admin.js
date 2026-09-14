@@ -7,11 +7,13 @@
   const tables = ['npcs','locations','factions','missions','sessions','discoveries'];
   const longFields = new Set(['description','relationship','player_notes','briefing','objectives','discoveries','outcome','rewards','summary','key_events','loot','consequences','significance','capabilities','clues','crew_history','goals','resources']);
   const readonlyFields = new Set(['created_at','updated_at']);
-  let currentTable = 'npcs', rows = [], current = null;
+  let currentTable = 'npcs', rows = [], current = null, pendingImage = null, removeImage = false;
   const $ = id => document.getElementById(id);
   const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const displayName = r => r.name || r.title || (r.number != null ? `Session ${r.number}` : r.id) || 'Untitled';
   const status = (id, text, error=false) => { const el=$(id); el.textContent=text; el.className=error?'error':'ok'; };
+  const bucket = 'galactic-database-images';
+  const publicImage = path => path ? db.storage.from(bucket).getPublicUrl(path).data.publicUrl : '';
 
   async function authorize() {
     const { data:{ user } } = await db.auth.getUser();
@@ -45,12 +47,22 @@
     return {id:'',name:'',image_path:''};
   }
 
+  function addImageManager(obj) {
+    const wrap=document.createElement('div'); wrap.className='image-manager';
+    const label=document.createElement('label'); label.className='system-tag'; label.textContent='VISUAL ARCHIVE // OPTIONAL IMAGE'; wrap.appendChild(label);
+    if(obj.image_path){const img=document.createElement('img');img.className='image-preview';img.src=publicImage(obj.image_path);img.alt=displayName(obj);wrap.appendChild(img);}
+    const actions=document.createElement('div');actions.className='image-actions';
+    const picker=document.createElement('input');picker.type='file';picker.accept='image/*';picker.onchange=()=>{pendingImage=picker.files?.[0]||null;removeImage=false;if(pendingImage)status('editorMessage',`IMAGE QUEUED // ${pendingImage.name}`);};actions.appendChild(picker);
+    if(obj.image_path){const clear=document.createElement('button');clear.type='button';clear.className='danger';clear.textContent='REMOVE IMAGE';clear.onclick=()=>{pendingImage=null;removeImage=true;wrap.querySelector('.image-preview')?.remove();status('editorMessage','IMAGE MARKED FOR REMOVAL // SAVE TO CONFIRM');};actions.appendChild(clear);}
+    wrap.appendChild(actions);$('fields').appendChild(wrap);
+  }
+
   function openEditor(record=null) {
-    current=record;
+    current=record; pendingImage=null; removeImage=false;
     $('editorTitle').textContent=(record?'EDIT // ':'NEW // ')+currentTable.toUpperCase();
-    $('fields').innerHTML=''; const obj=record?structuredClone(record):inferTemplate();
+    $('fields').innerHTML=''; const obj=record?structuredClone(record):inferTemplate(); addImageManager(obj);
     for(const [key,value] of Object.entries(obj)){
-      if(readonlyFields.has(key))continue;
+      if(readonlyFields.has(key)||key==='image_path')continue;
       const wrap=document.createElement('div'); wrap.className='field'+(longFields.has(key)?' long':'');
       const label=document.createElement('label');label.textContent=key.replaceAll('_',' ');wrap.appendChild(label);
       const input=longFields.has(key)?document.createElement('textarea'):document.createElement('input'); input.dataset.key=key;
@@ -64,16 +76,33 @@
     const obj={}; for(const input of $('fields').querySelectorAll('[data-key]')){let v=input.value,key=input.dataset.key;if(v.trim().startsWith('[')||v.trim().startsWith('{')){try{v=JSON.parse(v)}catch{}}obj[key]=v;} return obj;
   }
 
+  async function uploadImage(id) {
+    if(!pendingImage)return current?.image_path||null;
+    const ext=(pendingImage.name.split('.').pop()||'jpg').toLowerCase().replace(/[^a-z0-9]/g,'');
+    const path=`${currentTable}/${id}-${Date.now()}.${ext}`;
+    const {error}=await db.storage.from(bucket).upload(path,pendingImage,{contentType:pendingImage.type,upsert:false});
+    if(error)throw error; return path;
+  }
+
+  async function deleteImage(path){if(path)await db.storage.from(bucket).remove([path]);}
+
   async function save() {
-    const obj=collect(); let result;
-    if(current){const id=current.id;if(id==null){status('editorMessage','Cannot safely update a record without an ID.',true);return;}delete obj.id;result=await db.from(currentTable).update(obj).eq('id',id).select();}
-    else {if(!obj.id)obj.id=`gm-${currentTable}-${Date.now()}`;result=await db.from(currentTable).insert(obj).select();}
-    if(result.error){status('editorMessage',result.error.message,true);return;} status('editorMessage','RECORD SYNCHRONIZED TO LIVE CHRONICLE.'); await loadRows(); if(result.data?.[0])openEditor(result.data[0]);
+    try{
+      const obj=collect(); const id=current?.id||obj.id||`gm-${currentTable}-${Date.now()}`; if(!current)obj.id=id;
+      let imagePath=current?.image_path||null;
+      if(removeImage){await deleteImage(imagePath);imagePath=null;}
+      else if(pendingImage){const old=imagePath;imagePath=await uploadImage(id);if(old)await deleteImage(old);}
+      obj.image_path=imagePath;
+      let result;
+      if(current){delete obj.id;result=await db.from(currentTable).update(obj).eq('id',current.id).select();}
+      else result=await db.from(currentTable).insert(obj).select();
+      if(result.error)throw result.error; status('editorMessage','RECORD SYNCHRONIZED TO LIVE CHRONICLE.'); await loadRows(); if(result.data?.[0])openEditor(result.data[0]);
+    }catch(error){status('editorMessage',error.message||String(error),true);}
   }
 
   async function remove() {
     if(!current?.id)return;if(!confirm(`Delete ${displayName(current)} from the live Chronicle database?`))return;
-    const {error}=await db.from(currentTable).delete().eq('id',current.id);if(error){status('editorMessage',error.message,true);return;}current=null;$('editor').classList.add('hidden');await loadRows();
+    const {error}=await db.from(currentTable).delete().eq('id',current.id);if(error){status('editorMessage',error.message,true);return;}await deleteImage(current.image_path);current=null;$('editor').classList.add('hidden');await loadRows();
   }
 
   $('loginButton').onclick=async()=>{const email=$('email').value.trim();if(!email){status('loginMessage','Enter your authorized email.',true);return;}const {error}=await db.auth.signInWithOtp({email,options:{emailRedirectTo:location.href.split('#')[0],shouldCreateUser:false}});status('loginMessage',error?error.message:'SECURE LOGIN LINK TRANSMITTED.',!!error);};
