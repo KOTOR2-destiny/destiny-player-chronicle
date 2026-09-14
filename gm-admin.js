@@ -1,3 +1,4 @@
+// Galactic Database image-management revision
 (() => {
   'use strict';
   const cfg = window.DESTINY_GM_CONFIG;
