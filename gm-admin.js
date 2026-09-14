@@ -27,7 +27,7 @@
   }
 
   async function loadRows() {
-    $('records').innerHTML='<div>Loading…</div>';
+    $('records').innerHTML='<div>SCANNING DATABASE…</div>';
     const {data,error}=await db.from(currentTable).select('*');
     if(error){$('records').innerHTML=`<div class="error">${escapeHtml(error.message)}</div>`;return;}
     rows=data||[]; renderRows();
@@ -36,18 +36,18 @@
   function renderRows() {
     const q=$('search').value.trim().toLowerCase(), host=$('records'); host.innerHTML='';
     const filtered=rows.filter(r=>JSON.stringify(r).toLowerCase().includes(q));
-    for(const r of filtered){const d=document.createElement('div');d.className='record';d.innerHTML=`<strong>${escapeHtml(displayName(r))}</strong><small>${escapeHtml(r.status||r.type||r.planet||r.category||r.description||r.summary||'')}</small>`;d.onclick=()=>openEditor(r);host.appendChild(d);}
-    if(!filtered.length)host.innerHTML='<div>No matching records.</div>';
+    for(const r of filtered){const d=document.createElement('div');d.className='record';d.innerHTML=`<strong>${escapeHtml(displayName(r))}</strong><small>${escapeHtml(r.status||r.type||r.planet||r.category||r.description||r.summary||'DATABASE RECORD')}</small>`;d.onclick=()=>openEditor(r);host.appendChild(d);}
+    if(!filtered.length)host.innerHTML='<div>NO MATCHING RECORDS.</div>';
   }
 
   function inferTemplate() {
     if(rows[0]) { const o={}; for(const k of Object.keys(rows[0])) if(!readonlyFields.has(k)) o[k]=k==='id'?'':(typeof rows[0][k]==='number'?null:''); return o; }
-    return {id:'',name:''};
+    return {id:'',name:'',image_path:''};
   }
 
   function openEditor(record=null) {
     current=record;
-    $('editorTitle').textContent=(record?'EDIT ':'NEW ')+currentTable.toUpperCase();
+    $('editorTitle').textContent=(record?'EDIT // ':'NEW // ')+currentTable.toUpperCase();
     $('fields').innerHTML=''; const obj=record?structuredClone(record):inferTemplate();
     for(const [key,value] of Object.entries(obj)){
       if(readonlyFields.has(key))continue;
@@ -68,7 +68,7 @@
     const obj=collect(); let result;
     if(current){const id=current.id;if(id==null){status('editorMessage','Cannot safely update a record without an ID.',true);return;}delete obj.id;result=await db.from(currentTable).update(obj).eq('id',id).select();}
     else {if(!obj.id)obj.id=`gm-${currentTable}-${Date.now()}`;result=await db.from(currentTable).insert(obj).select();}
-    if(result.error){status('editorMessage',result.error.message,true);return;} status('editorMessage','Saved to the live Player Chronicle database.'); await loadRows(); if(result.data?.[0])openEditor(result.data[0]);
+    if(result.error){status('editorMessage',result.error.message,true);return;} status('editorMessage','RECORD SYNCHRONIZED TO LIVE CHRONICLE.'); await loadRows(); if(result.data?.[0])openEditor(result.data[0]);
   }
 
   async function remove() {
@@ -76,7 +76,7 @@
     const {error}=await db.from(currentTable).delete().eq('id',current.id);if(error){status('editorMessage',error.message,true);return;}current=null;$('editor').classList.add('hidden');await loadRows();
   }
 
-  $('loginButton').onclick=async()=>{const email=$('email').value.trim();if(!email){status('loginMessage','Enter your authorized email.',true);return;}const {error}=await db.auth.signInWithOtp({email,options:{emailRedirectTo:location.href.split('#')[0],shouldCreateUser:false}});status('loginMessage',error?error.message:'Secure login link sent. Open it on this device.',!!error);};
+  $('loginButton').onclick=async()=>{const email=$('email').value.trim();if(!email){status('loginMessage','Enter your authorized email.',true);return;}const {error}=await db.auth.signInWithOtp({email,options:{emailRedirectTo:location.href.split('#')[0],shouldCreateUser:false}});status('loginMessage',error?error.message:'SECURE LOGIN LINK TRANSMITTED.',!!error);};
   $('logoutButton').onclick=async()=>{await db.auth.signOut();location.reload();}; $('reloadButton').onclick=loadRows; $('search').oninput=renderRows; $('newButton').onclick=()=>openEditor(); $('cancelButton').onclick=()=>$('editor').classList.add('hidden'); $('saveButton').onclick=save; $('deleteButton').onclick=remove;
   db.auth.onAuthStateChange(()=>setTimeout(authorize,0)); authorize();
 })();
