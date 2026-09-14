@@ -1,0 +1,12 @@
+(()=>{
+'use strict';
+const BUCKET='galactic-database-images';
+function client(){return window.supabaseClient||window.supabase||window.db||null;}
+function url(path){if(!path)return '';const c=client();try{if(c?.storage?.from)return c.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;}catch(e){}const cfg=window.DESTINY_GM_CONFIG;if(cfg?.url)return cfg.url+'/storage/v1/object/public/'+BUCKET+'/'+String(path).split('/').map(encodeURIComponent).join('/');return '';}
+function attach(record,host){if(!record?.image_path||!host)return;const src=url(record.image_path);if(!src)return;const figure=document.createElement('figure');figure.className='destiny-lore-image';const img=document.createElement('img');img.src=src;img.alt=(record.name||record.title||'Galactic Database image');img.loading='lazy';img.onerror=()=>figure.remove();figure.appendChild(img);host.insertBefore(figure,host.firstChild);}
+function selectedId(kind){const map={npcs:'selectedNpcId',locations:'selectedLocationId',factions:'selectedFactionId',missions:'selectedMissionId',sessions:'selectedSessionId',discoveries:'selectedDiscoveryId'};try{return eval(map[kind]);}catch(e){return null;}}
+function state(){try{return chronicleState;}catch(e){return null;}}
+function refresh(){const s=state();if(!s)return;const hosts=[['npcs','.dossier'],['locations','.location-reader'],['factions','.faction-reader'],['missions','.mission-reader'],['sessions','.session-reader'],['discoveries','.discovery-reader']];for(const[kind,selector]of hosts){const host=document.querySelector(selector);if(!host||host.querySelector('.destiny-lore-image'))continue;const id=selectedId(kind);if(!id)continue;const record=(s[kind]||[]).find(x=>x.id===id);attach(record,host);}}
+const style=document.createElement('style');style.textContent='.destiny-lore-image{margin:0 0 14px;padding:0}.destiny-lore-image img{display:block;width:auto;max-width:100%;max-height:440px;object-fit:contain;border:1px solid #327b8f;background:#02141d;box-shadow:0 0 16px rgba(49,217,255,.15)}';document.head.appendChild(style);
+new MutationObserver(()=>requestAnimationFrame(refresh)).observe(document.body,{childList:true,subtree:true});window.addEventListener('load',refresh);setTimeout(refresh,500);
+})();
