@@ -1,0 +1,1 @@
+(()=>{'use strict';if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./destiny-sw.js').catch(console.warn));})();
