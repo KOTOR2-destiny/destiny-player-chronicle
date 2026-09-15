@@ -1,4 +1,4 @@
-/* DESTINY PLAYER CHRONICLE // MOBILE APPLICATION UI v1.39 */
+/* DESTINY PLAYER CHRONICLE // MOBILE APPLICATION UI v1.39.1 */
 @media(max-width:760px){
  html,body{width:100%;max-width:100%;overflow-x:hidden}
  body{padding:0!important;background:#00070b}
@@ -8,13 +8,20 @@
  .account-strip{width:100%;display:grid!important;grid-template-columns:1fr 1fr;gap:7px!important}.account-email{grid-column:1/-1;overflow:hidden;text-overflow:ellipsis}.account-strip .action-button{width:100%;min-height:44px}
  .chronicle-nav{position:sticky!important;top:91px!important;z-index:70!important;display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px!important;overflow:visible!important;padding:8px!important;background:rgba(1,17,24,.99)!important}
  .nav-button{min-width:0!important;width:100%!important;min-height:44px!important;padding:6px!important;font-size:8px!important;line-height:1.25}
- .column,.journal-sidebar,.journal-reader,.journal-editor,.location-sidebar,.location-reader,.faction-sidebar,.faction-reader,.mission-sidebar,.mission-reader,.session-sidebar,.session-reader,.discovery-sidebar,.discovery-reader{padding:10px!important}
- .npc-list,.journal-list,.location-list,.faction-list,.mission-list,.session-list,.discovery-list{max-height:240px!important;overflow-y:auto;-webkit-overflow-scrolling:touch}
- .npc-card,.journal-card,.location-card,.faction-card,.mission-card,.session-card,.discovery-card{min-height:50px;padding:11px!important}
- .search,.input,.select,.textarea,.cs-input,.cs-select,.cs-textarea{font-size:16px!important} /* prevents iOS focus zoom */
- .dossier,.dossier-placeholder{min-height:0!important}.dossier-placeholder{padding:28px 12px!important}
- .dossier-name{font-size:19px!important}.dossier-block{padding:10px!important}.block-text{font-size:13px!important;line-height:1.55!important}
- .destiny-lore-image img{width:100%!important;height:auto!important;max-height:52vh!important;object-fit:contain!important}
+
+ /* Force every archive section to become a genuine single-column phone layout. */
+ .main,.npc-section,.journal-section,.location-section,.faction-section,.mission-section,.session-section,.discovery-section{display:block!important;width:100%!important;max-width:100%!important;min-width:0!important;min-height:0!important;grid-template-columns:none!important}
+ .column,.journal-sidebar,.journal-reader,.journal-editor,.location-sidebar,.location-reader,.faction-sidebar,.faction-reader,.mission-sidebar,.mission-reader,.session-sidebar,.session-reader,.discovery-sidebar,.discovery-reader{display:block!important;width:100%!important;max-width:100%!important;min-width:0!important;padding:10px!important;border-left:0!important}
+ .column+.column,.journal-reader,.journal-editor,.location-reader,.faction-reader,.mission-reader,.session-reader,.discovery-reader{border-top:1px solid #245f6f!important}
+ .npc-list,.journal-list,.location-list,.faction-list,.mission-list,.session-list,.discovery-list{width:100%!important;max-width:100%!important;max-height:240px!important;overflow-y:auto;-webkit-overflow-scrolling:touch}
+ .npc-card,.journal-card,.location-card,.faction-card,.mission-card,.session-card,.discovery-card{display:block!important;width:100%!important;max-width:100%!important;min-height:50px;padding:11px!important}
+ .search,.input,.select,.textarea,.cs-input,.cs-select,.cs-textarea{font-size:16px!important;max-width:100%!important} /* prevents iOS focus zoom */
+ .dossier,.dossier-placeholder,[id$="-dossier"]{display:block!important;width:100%!important;max-width:100%!important;min-width:0!important;min-height:0!important;overflow-wrap:anywhere!important;word-break:normal!important}
+ .dossier-placeholder{padding:28px 12px!important}
+ .dossier-header,.dossier-block,.related-records{width:100%!important;max-width:100%!important;min-width:0!important}
+ .dossier-name{font-size:19px!important;overflow-wrap:anywhere}.dossier-tags{max-width:100%!important}.tag{max-width:100%!important;white-space:normal!important}
+ .dossier-block{padding:10px!important}.block-text{width:100%!important;max-width:100%!important;font-size:13px!important;line-height:1.55!important;white-space:pre-wrap!important;overflow-wrap:anywhere!important;word-break:normal!important}
+ .destiny-lore-image{width:100%!important;max-width:100%!important}.destiny-lore-image img{width:100%!important;height:auto!important;max-height:52vh!important;object-fit:contain!important}
  .journal-entry{padding:13px!important}.journal-entry-title{font-size:18px!important}.journal-entry-text{font-size:14px!important;line-height:1.65!important}.journal-textarea{min-height:230px!important}
  .related-record-button,.chronicle-small-button,.submit-button,.journal-delete,.action-button{min-height:44px!important}
  .filter-row,.author-row,.journal-meta-grid{grid-template-columns:1fr!important}
