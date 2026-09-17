@@ -1,0 +1,10 @@
+(()=>{
+const types=['Planet','Moon','Space Station','City','Township / Settlement','District','Building / Site','Region / Territory','Other'];
+function convert(input,values,empty){if(!input||input.tagName==='SELECT')return input;const select=document.createElement('select');select.dataset.key=input.dataset.key;select.innerHTML='<option value="">'+empty+'</option>'+values.map(v=>'<option>'+v+'</option>').join('');select.value=input.value;input.replaceWith(select);return select;}
+function refresh(){const fields=document.getElementById('fields');if(!fields)return;const type=fields.querySelector('[data-key="type"]');const planet=fields.querySelector('[data-key="planet"]');const parent=fields.querySelector('[data-key="parent_location"]');if(!type||!planet||!parent)return;const active=[...document.querySelectorAll('#tabs button.active')][0];if(!active||active.textContent.trim()!=='LOCATIONS')return;
+ const ts=convert(type,types,'SELECT LOCATION TYPE...');ts.closest('.field').querySelector('label').textContent='LOCATION TYPE';
+ planet.closest('.field').querySelector('label').textContent='PLANET / WORLD (LEGACY)';
+ const names=[...document.querySelectorAll('#records .record strong')].map(x=>x.textContent.trim());const ps=convert(parent,names,'NO PARENT / TOP-LEVEL LOCATION');ps.closest('.field').querySelector('label').textContent='PARENT LOCATION';
+ const toggle=()=>{const celestial=ts.value==='Planet'||ts.value==='Moon';planet.closest('.field').style.display=celestial?'none':'';ps.closest('.field').style.display=celestial?'none':'';['sector','galaxy_grid','map_x','map_y','show_on_galaxy_map','discovered','visited'].forEach(k=>{const e=fields.querySelector('[data-key="'+k+'"]');if(e)e.closest('.field').style.display=celestial?'':'none';});};ts.onchange=toggle;toggle();}
+document.addEventListener('click',()=>setTimeout(refresh,0));setInterval(refresh,1000);
+})();
