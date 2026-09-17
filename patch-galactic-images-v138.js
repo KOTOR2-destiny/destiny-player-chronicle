@@ -2,31 +2,34 @@
 'use strict';
 const BUCKET='galactic-database-images';
 const PROJECT_URL='https://wfknfmvtygxtnjxdcxoj.supabase.co';
-function imageUrl(path){
- if(!path)return '';
- return PROJECT_URL+'/storage/v1/object/public/'+BUCKET+'/'+String(path).split('/').map(encodeURIComponent).join('/');
-}
-function imageMarkup(record){
- if(!record||!record.image_path)return '';
- const src=imageUrl(record.image_path);
- const alt=String(record.name||record.title||'Galactic Database image').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
- return '<figure class="destiny-lore-image"><img src="'+src+'" alt="'+alt+'" loading="lazy" onerror="this.parentElement.remove()"></figure>';
+function imageUrl(path){if(!path)return '';return PROJECT_URL+'/storage/v1/object/public/'+BUCKET+'/'+String(path).split('/').map(encodeURIComponent).join('/');}
+function escapeHtml(value){return String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function imageMarkup(record){if(!record?.image_path)return '';return '<figure class="destiny-lore-image"><img src="'+escapeHtml(imageUrl(record.image_path))+'" alt="'+escapeHtml(record.name||record.title||'Galactic Database image')+'" loading="lazy" onerror="this.parentElement.remove()"></figure>';}
+function getState(){try{return typeof chronicleState!=='undefined'?chronicleState:window.chronicleState}catch(e){return window.chronicleState}}
+function locationFromRenderedDossier(host,state){
+ const records=state?.locations||[];
+ // The selected location ID in app-v14.html is a top-level lexical binding. The
+ // Galaxy Map previously set window.selectedLocationId, which can remain stale
+ // after a user clicks another location. Use the actually rendered dossier title.
+ const title=host.querySelector('.dossier-name')?.textContent?.trim();
+ if(title){const match=records.find(r=>String(r.name||'').trim()===title);if(match)return match;}
+ const selectedCard=document.querySelector('#location-section .location-card.selected');
+ const cardName=selectedCard?.querySelector('.location-name')?.textContent?.trim();
+ return cardName?records.find(r=>String(r.name||'').trim()===cardName)||null:null;
 }
 function wrapRenderer(fnName,kind,idName,hostId){
- const original=window[fnName];
- if(typeof original!=='function')return;
+ const original=window[fnName];if(typeof original!=='function')return;
  window[fnName]=function(){
   const result=original.apply(this,arguments);
   requestAnimationFrame(()=>{
    try{
-    const host=document.getElementById(hostId);
-    if(!host)return;
+    const host=document.getElementById(hostId);if(!host)return;
     host.querySelectorAll('.destiny-lore-image').forEach(x=>x.remove());
-    const state=window.chronicleState||chronicleState;
-    const id=window[idName]!==undefined?window[idName]:eval(idName);
-    const record=(state?.[kind]||[]).find(x=>x.id===id);
-    if(!record?.image_path)return;
-    host.insertAdjacentHTML('afterbegin',imageMarkup(record));
+    const state=getState();
+    let record;
+    if(kind==='locations')record=locationFromRenderedDossier(host,state);
+    else {let id;try{id=eval(idName)}catch(e){id=window[idName]}record=(state?.[kind]||[]).find(x=>x.id===id);}
+    if(record?.image_path)host.insertAdjacentHTML('afterbegin',imageMarkup(record));
    }catch(e){console.warn('Destiny lore image render failed',kind,e);}
   });
   return result;
@@ -39,10 +42,8 @@ function install(){
  wrapRenderer('renderSelectedMission','missions','selectedMissionId','mission-dossier');
  wrapRenderer('renderSelectedSession','sessions','selectedSessionId','session-dossier');
  wrapRenderer('renderSelectedDiscovery','discoveries','selectedDiscoveryId','discovery-dossier');
- try{renderSelectedNpc();renderSelectedLocation();renderSelectedFaction();renderSelectedMission();renderSelectedSession();renderSelectedDiscovery();}catch(e){}
+ try{renderSelectedNpc();renderSelectedLocation();renderSelectedFaction();renderSelectedMission();renderSelectedSession();renderSelectedDiscovery()}catch(e){}
 }
-const style=document.createElement('style');
-style.textContent='.destiny-lore-image{margin:0 0 14px;padding:0}.destiny-lore-image img{display:block;width:auto;max-width:100%;max-height:440px;object-fit:contain;border:1px solid #327b8f;background:#02141d;box-shadow:0 0 16px rgba(49,217,255,.15)}';
-document.head.appendChild(style);
+const style=document.createElement('style');style.textContent='.destiny-lore-image{margin:0 0 14px;padding:0}.destiny-lore-image img{display:block;width:auto;max-width:100%;max-height:440px;object-fit:contain;border:1px solid #327b8f;background:#02141d;box-shadow:0 0 16px rgba(49,217,255,.15)}';document.head.appendChild(style);
 install();
 })();
