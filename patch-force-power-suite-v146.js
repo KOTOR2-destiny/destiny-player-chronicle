@@ -59,6 +59,7 @@ function markDirty(){
  if(S.syncing)return;
  if(typeof window.characterSheetChanged==='function')window.characterSheetChanged();
 }
+function esc(v){return String(v??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]))}
 function render(){
  ensurePanel();
  const panel=document.getElementById('cs-force-suite-panel');if(!panel)return;
@@ -72,7 +73,7 @@ function render(){
  const grid=panel.querySelector('.fps-grid');
  es.forEach((e,i)=>{
   const spent=S.spent.includes(e.key), card=document.createElement('div');card.className='fps-card'+(spent?' spent':'');
-  card.innerHTML=`<div><div class="fps-name">${escapeHtml(e.name)}${es.filter(x=>x.name.toLowerCase()===e.name.toLowerCase()).length>1?' #'+(e.index+1):''}</div><div class="fps-copy">${spent?'SPENT // RECOVER BEFORE USING AGAIN':'AVAILABLE // CLICK USE POWER TO SPEND THIS USE'}</div></div><div class="fps-actions"><button type="button" class="fps-btn ${spent?'':'good'}" ${spent?'disabled':''}>USE POWER</button><button type="button" class="fps-btn">DETAILS</button></div>`;
+  card.innerHTML=`<div><div class="fps-name">${esc(e.name)}${es.filter(x=>x.name.toLowerCase()===e.name.toLowerCase()).length>1?' #'+(e.index+1):''}</div><div class="fps-copy">${spent?'SPENT // RECOVER BEFORE USING AGAIN':'AVAILABLE // CLICK USE POWER TO SPEND THIS USE'}</div></div><div class="fps-actions"><button type="button" class="fps-btn ${spent?'':'good'}" ${spent?'disabled':''}>USE POWER</button><button type="button" class="fps-btn">DETAILS</button></div>`;
   card.querySelectorAll('button')[0].onclick=()=>{if(!S.spent.includes(e.key)){S.spent.push(e.key);render();markDirty()}};
   card.querySelectorAll('button')[1].onclick=()=>{if(typeof window.openCharacterRulesReference==='function')window.openCharacterRulesReference(e.name,'force power')};
   grid.appendChild(card);
