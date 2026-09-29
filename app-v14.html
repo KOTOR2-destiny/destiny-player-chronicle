@@ -4475,6 +4475,30 @@ function preview(root){
  const b=p.querySelector('.forge-blade');b.style.background=state.blade;b.style.boxShadow='0 0 8px '+state.blade+',0 0 26px '+state.blade+',0 0 60px '+state.blade
 }
 function fallbackPart(i,n){const d=document.createElement('div');d.className='forge-part fallback p'+i;d.dataset.slot=FORGE_ASSET_MANIFEST.slots[i];d.style.cssText=styleFor(i,n);return d}
+function workshop(root){
+ root.innerHTML=`<div class="forge-screen forge-production">
+  <div class="forge-prod-head"><button class="forge-back" type="button">← RETURN TO CHRONICLE</button><div><div class="forge-kicker">JEDI ARTISAN ARCHIVE // PERSONAL CONSTRUCTION</div><h1>LIGHTSABER FORGE</h1></div><div class="forge-motto">TRADITION · PURPOSE · BALANCE · YOURS</div></div>
+  <div class="forge-trays"></div>
+  <div class="forge-stage"><div class="forge-rings"></div><div class="forge-saber"></div><div class="forge-stage-label"><small>LIVE ASSEMBLY</small><b>YOUR LIGHTSABER</b></div></div>
+  <div class="forge-prod-bottom">
+   <section class="forge-family-panel"><div class="forge-panel-title">DESIGN STYLE</div><div class="forge-family-grid"></div></section>
+   <section class="forge-summary"><div class="forge-panel-title">YOUR LIGHTSABER</div><div class="forge-summary-lines"></div></section>
+   <section class="forge-actions"><button type="button" data-act="random">⤨ RANDOM DESIGN</button><button type="button" data-act="save">▣ SAVE DESIGN</button><button type="button" data-act="finalize" class="finalize">✓ FINALIZE &amp; EQUIP</button></section>
+  </div>
+  <div class="forge-energy"><div><small>KYBER RESONANCE</small><b>BLADE COLOR</b></div><input type="color" value="${state.blade}"></div>
+ </div>`;
+ root.querySelector('.forge-back').onclick=()=>{state.open=false;render(root)};
+ const trays=root.querySelector('.forge-trays');
+ slots.forEach((slot,i)=>{const card=document.createElement('section');card.className='forge-tray';card.innerHTML=`<div class="forge-tray-title">${slot[0]}</div><div class="forge-tray-options"></div>`;slot[1].forEach((name,n)=>{const b=document.createElement('button');b.type='button';b.className=n===state.choices[i]?'active':'';const src=forgeAssetFor(i,n);if(src){const mini=atlasPart(i,n,src);mini.className='forge-mini production p'+i;b.appendChild(mini);const small=document.createElement('small');small.textContent=families[n];b.appendChild(small)}else b.innerHTML=`<span class="forge-mini p${i}" style="${styleFor(i,n)}"></span><small>${families[n]}</small>`;b.onclick=()=>{state.choices[i]=n;workshop(root);markDirty()};card.querySelector('.forge-tray-options').appendChild(b)});trays.appendChild(card)});
+ const fam=root.querySelector('.forge-family-grid');families.forEach((name,n)=>{const b=document.createElement('button');b.type='button';b.textContent=name;b.className=state.choices.every(x=>x===n)?'active':'';b.onclick=()=>{state.choices=state.choices.map(()=>n);workshop(root);markDirty()};fam.appendChild(b)});
+ const summary=root.querySelector('.forge-summary-lines');summary.innerHTML=slots.map((slot,i)=>`<div><span>${slot[0]}</span><b>${families[state.choices[i]]} — ${slot[1][state.choices[i]]}</b></div>`).join('');
+ root.querySelector('input[type=color]').oninput=e=>{state.blade=e.target.value;preview(root);markDirty()};
+ root.querySelector('[data-act=random]').onclick=()=>{state.choices=state.choices.map(()=>Math.floor(Math.random()*families.length));workshop(root);markDirty()};
+ root.querySelector('[data-act=save]').onclick=()=>{markDirty();const b=root.querySelector('[data-act=save]');b.textContent='✓ DESIGN SAVED';setTimeout(()=>{if(b.isConnected)b.textContent='▣ SAVE DESIGN'},1400)};
+ root.querySelector('[data-act=finalize]').onclick=()=>{markDirty();const b=root.querySelector('[data-act=finalize]');b.textContent='✓ LIGHTSABER EQUIPPED'};
+ preview(root)
+}
+function reveal(root){root.innerHTML=`<div class="forge-reveal"><div class="forge-stars"></div><div class="forge-sigil">✦</div><div class="forge-eyebrow">A NEW PATH HAS OPENED</div><h1>A JEDI'S WEAPON</h1><div class="forge-rule"></div><p>The time has come to construct your lightsaber.</p><blockquote>“The blade is not the weapon. The Jedi who gives it purpose is.”</blockquote><button type="button">GO TO FORGE <span>›</span></button></div>`;root.querySelector('button').onclick=()=>{state.revealed=true;state.open=true;markDirty();workshop(root)}}
 function entry(root){root.innerHTML=`<button type="button" class="forge-entry"><span class="forge-entry-icon">✦</span><span><small>JEDI ARTISAN ARCHIVE</small><b>LIGHTSABER WORKSHOP</b><em>Continue construction of your personal weapon</em></span><strong>ENTER ›</strong></button>`;root.querySelector('button').onclick=()=>{state.open=true;workshop(root)}}
 function render(root){if(!state.revealed)return reveal(root);if(state.open)return workshop(root);return entry(root)}
 function ensure(){if(!eligible()){state.open=false;remove();return}if(document.getElementById(ROOT_ID))return;const anchor=document.querySelector('#character-sheet-section .cs-save-row');if(!anchor)return;const root=document.createElement('div');root.id=ROOT_ID;anchor.parentNode.insertBefore(root,anchor);render(root)}
