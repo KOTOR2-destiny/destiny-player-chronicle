@@ -4441,14 +4441,14 @@ destinySupabase.auth.getSession().then(function(result){
 (()=>{
 'use strict';
 const ROOT_ID='destiny-v148-module', REQUIRED_FEAT='weapon proficiency (lightsabers)';
-const families=['Temple Standard','Guardian','Ancient Jedi'];
+const families=['Temple Standard','Guardian','Consular','Ancient Jedi','Expedition','Ascetic','Scholar','Defender','Artisan','Vigilant','Primal','Shrouded'];
 const slots=[
- ['Emitter',['Crown','Fork','Shroud']],
- ['Upper Hilt / Neck',['Ribbed','Collar','Filigree']],
- ['Grip',['Linear','Wrapped','Knurled']],
- ['Activation / Control',['Stud','Plate','Inset']],
- ['Lower Hilt',['Vented','Armored','Tapered']],
- ['Pommel',['Cap','Ring','Faceted']]
+ ['Emitter',['Crown','Fork','Halo','Relic','Field','Spire','Archive','Bastion','Harmony','Edge','Fang','Veil']],
+ ['Upper Hilt / Neck',['Ribbed','Collar','Tapered','Filigree','Reinforced','Plain','Inscribed','Armored','Balanced','Angular','Bound','Sleeved']],
+ ['Grip',['Linear','Wrapped','Fluted','Ancient Wrap','Field Wrap','Bare','Etched','Braced','Inlaid','Ridged','Hidebound','Obscured']],
+ ['Activation / Control',['Stud','Plate','Inset','Relic Switch','Guarded','Minimal','Archive','Shielded','Artisan','Tactical','Crude','Recessed']],
+ ['Lower Hilt',['Vented','Armored','Refined','Tapered','Field','Plain','Inscribed','Bastion','Balanced','Vigilant','Salvaged','Shrouded']],
+ ['Pommel',['Cap','Ring','Faceted','Relic','Utility','Disc','Archive','Weighted','Ornate','Angular','Primal','Veiled']]
 ];
 const FORGE_ASSET_MANIFEST={
  version:1,
@@ -4463,7 +4463,7 @@ function lines(v){return String(v||'').split(/\n|;/).map(x=>x.trim().toLowerCase
 function eligible(){const j=Number(document.getElementById('cs-class-jedi')?.value||0),f=lines(document.getElementById('cs-feats')?.value);return j>=1&&f.some(x=>x===REQUIRED_FEAT||(x.includes('weapon proficiency')&&x.includes('lightsaber')))}
 function remove(){document.getElementById(ROOT_ID)?.remove()}
 function markDirty(){if(typeof window.characterSheetChanged==='function')window.characterSheetChanged()}
-function styleFor(slot,n){const a=['#c9b06b','#aab7bd','#806b55'][n],d=['#27343a','#1d252a','#332b26'][n],common=`border-color:${a};background:linear-gradient(90deg,#56646a 0 12%,${d} 12% 22%,#b8c1c3 22% 29%,${a} 29% 35%,#58666a 35% 65%,${a} 65% 71%,#b8c1c3 71% 78%,${d} 78% 88%,#56646a 88%)`;if(slot===0)return common+';clip-path:polygon(10% 0,90% 0,82% 100%,18% 100%)';if(slot===2)return `border-color:${a};background:repeating-linear-gradient(90deg,${d} 0 7px,#101619 7px 12px)`;if(slot===3)return `border-color:${a};background:linear-gradient(90deg,#66757a 0 38%,${a} 38% 45%,#11191d 45% 55%,${a} 55% 62%,#66757a 62%)`;if(slot===5)return `border-color:${a};background:radial-gradient(circle,${a} 0 12%,#1b2428 13% 27%,#89969a 28% 55%,${d} 56%);border-radius:0 0 18px 18px`;return common}
+function styleFor(slot,n){const palette=[['#c9b06b','#27343a'],['#aab7bd','#1d252a'],['#d7c894','#273238'],['#806b55','#332b26'],['#a69a76','#283034'],['#b9b0a0','#202526'],['#c3a96d','#273033'],['#9da7aa','#1b2529'],['#c7a85d','#302b22'],['#9ca9ad','#1c252b'],['#8b7454','#332c24'],['#6f7778','#171d20']];const [a,d]=palette[n]||palette[0],common=`border-color:${a};background:linear-gradient(90deg,#56646a 0 12%,${d} 12% 22%,#b8c1c3 22% 29%,${a} 29% 35%,#58666a 35% 65%,${a} 65% 71%,#b8c1c3 71% 78%,${d} 78% 88%,#56646a 88%)`;if(slot===0)return common+';clip-path:polygon(10% 0,90% 0,82% 100%,18% 100%)';if(slot===2)return `border-color:${a};background:repeating-linear-gradient(90deg,${d} 0 7px,#101619 7px 12px)`;if(slot===3)return `border-color:${a};background:linear-gradient(90deg,#66757a 0 38%,${a} 38% 45%,#11191d 45% 55%,${a} 55% 62%,#66757a 62%)`;if(slot===5)return `border-color:${a};background:radial-gradient(circle,${a} 0 12%,#1b2428 13% 27%,#89969a 28% 55%,${d} 56%);border-radius:0 0 18px 18px`;return common}
 function componentKey(i,n){return FORGE_ASSET_MANIFEST.slots[i]+'-'+n}
 function preview(root){
  const p=root.querySelector('.forge-saber');if(!p)return;
@@ -4495,7 +4495,7 @@ const css=document.createElement('style');css.textContent=`
 @media(max-width:850px){.forge-layout{grid-template-columns:1fr}.forge-display{min-height:560px}.forge-controls{grid-template-columns:1fr}.forge-back{position:static;display:block;margin-bottom:12px}.forge-top{padding:10px}.forge-reveal{min-height:520px;padding:22px}.forge-reveal h1{font-size:31px}}
 `;document.head.appendChild(css);
 const oldCollect=window.collectCharacterSheet;if(typeof oldCollect==='function')window.collectCharacterSheet=function(){const s=oldCollect.apply(this,arguments);if(eligible())s.artisanModule={choices:[...state.choices],blade:state.blade,revealed:state.revealed};return s};
-const oldHydrate=window.hydrateCharacterSheet;if(typeof oldHydrate==='function')window.hydrateCharacterSheet=function(sheet){const out=oldHydrate.apply(this,arguments);if(sheet?.artisanModule&&eligible()){state.choices=(sheet.artisanModule.choices||state.choices).map(x=>Math.max(0,Math.min(2,Number(x)||0)));state.blade=sheet.artisanModule.blade||state.blade;state.revealed=!!sheet.artisanModule.revealed}setTimeout(()=>{remove();ensure()},0);return out};
+const oldHydrate=window.hydrateCharacterSheet;if(typeof oldHydrate==='function')window.hydrateCharacterSheet=function(sheet){const out=oldHydrate.apply(this,arguments);if(sheet?.artisanModule&&eligible()){state.choices=(sheet.artisanModule.choices||state.choices).map(x=>Math.max(0,Math.min(11,Number(x)||0)));state.blade=sheet.artisanModule.blade||state.blade;state.revealed=!!sheet.artisanModule.revealed}setTimeout(()=>{remove();ensure()},0);return out};
 let wasEligible=eligible();function reevaluate(){const now=eligible();if(now&&!wasEligible)state.revealed=false;wasEligible=now;remove();ensure()}document.addEventListener('input',e=>{if(e.target?.id==='cs-class-jedi'||e.target?.id==='cs-feats')setTimeout(reevaluate,0)});document.addEventListener('change',e=>{if(e.target?.id==='cs-class-jedi'||e.target?.id==='cs-feats')setTimeout(reevaluate,0)});setInterval(()=>{if(!document.getElementById('character-sheet-section'))return;const now=eligible();if(now!==wasEligible){if(now&&!wasEligible)state.revealed=false;wasEligible=now;remove();ensure();return}ensure()},350);
 })();
 </script>
