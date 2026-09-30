@@ -1106,7 +1106,7 @@ input[type="file"]{
 .cs-ability-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .cs-ability{border:1px solid #2c6878;background:rgba(3,30,40,.95);padding:8px}
 .cs-ability-name{color:#b6f8ff;font-size:11px;font-weight:bold;letter-spacing:1px}
-.cs-ability-calc{display:grid;grid-template-columns:minmax(58px,1fr) 42px minmax(58px,1fr) 42px;gap:4px;align-items:center;margin-top:6px}.cs-ability-calc input{min-width:58px;width:100%;padding-left:6px;padding-right:6px;text-align:center;font-size:16px}.cs-ability-calc>*{box-sizing:border-box}
+.cs-ability-calc{display:grid;grid-template-columns:minmax(48px,1fr) 42px minmax(48px,1fr) 42px;gap:4px;align-items:center;margin-top:6px}.cs-ability-calc input{min-width:48px;width:100%;padding-left:5px;padding-right:5px;text-align:center;font-size:16px}.cs-ability-calc>*{box-sizing:border-box}.cs-core-layout{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.cs-core-layout>.cs-abilities-panel{grid-column:1/-1}.cs-core-layout>.cs-panel:nth-child(2){grid-column:2;grid-row:2}.cs-core-layout>.cs-panel:nth-child(3){grid-column:1;grid-row:2}
 .cs-mini{font-size:7px;color:#6fa4af;letter-spacing:.6px}
 .cs-score,.cs-mod{font-size:17px;font-weight:bold;color:#d9fbff;text-align:center}
 .cs-species-note{margin-top:7px;color:#83ddeb;font-size:8px;line-height:1.45}
@@ -1142,7 +1142,7 @@ input[type="file"]{
 .cs-modal-actions{display:flex;gap:8px;flex-wrap:wrap}
 .cs-link{display:inline-flex;align-items:center;justify-content:center;min-height:34px;padding:0 10px;border:1px solid #4edfff;color:#d5fbff;text-decoration:none;font-size:8px;font-weight:bold}
 .cs-help{font-size:8px;color:#6fa4af;line-height:1.5;margin-top:5px}
-@media(max-width:1000px){.cs-two-column{grid-template-columns:1fr}.cs-field{grid-column:span 6}.cs-ability-grid,.cs-defense-grid{grid-template-columns:repeat(2,1fr)}.cs-stat-strip{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:1000px){.cs-two-column{grid-template-columns:1fr}.cs-core-layout{grid-template-columns:1fr}.cs-core-layout>.cs-abilities-panel,.cs-core-layout>.cs-panel:nth-child(2),.cs-core-layout>.cs-panel:nth-child(3){grid-column:1;grid-row:auto}.cs-field{grid-column:span 6}.cs-ability-grid,.cs-defense-grid{grid-template-columns:repeat(2,1fr)}.cs-stat-strip{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:650px){.cs-field,.cs-field.wide{grid-column:1/-1}.cs-ability-grid,.cs-defense-grid,.cs-skill-grid{grid-template-columns:1fr}.cs-stat-strip{grid-template-columns:repeat(2,1fr)}.cs-weapon{grid-template-columns:1fr 1fr}.cs-weapon>*{min-width:0}}
 
 
@@ -1802,8 +1802,8 @@ input[type="file"]{
                 </div>
             </div>
 
-            <div class="cs-two-column">
-                <div class="cs-panel">
+            <div class="cs-two-column cs-core-layout">
+                <div class="cs-panel cs-abilities-panel">
                     <div class="section-title">ABILITY SCORES</div>
                     <div class="cs-help">Enter the unmodified/base score. Species adjustments are applied automatically. “Other” covers level increases, equipment, or house-rule adjustments.</div>
                     <div id="cs-abilities" class="cs-ability-grid"></div>
@@ -4458,7 +4458,7 @@ const FORGE_ASSET_MANIFEST={
 function forgeAssetFor(i,n){const row=FORGE_ASSET_MANIFEST.productionFamilies[n];return row===undefined?null:{src:FORGE_ASSET_MANIFEST.atlas,col:i,row}}
 const FORGE_X=[5,1,0,-2,-4,-6],FORGE_Y=[-2,-4,-2,9,11,11],FORGE_OVERLAP=[0,-22,-23,-26,-26,-22],FORGE_CROP_TOP=[0,9,0,5,5,4],FORGE_CROP_BOTTOM=[3,5,3,27,27,6],FORGE_SOURCE_Y=[0,0,0,-4,-4,0];
 const forgeAtlasImage=new Image();forgeAtlasImage.src=FORGE_ASSET_MANIFEST.atlas;
-function atlasThumb(i,n,a){const d=document.createElement('div');d.className='forge-mini production p'+i;d.style.backgroundImage="url('"+a.src+"')";d.style.backgroundSize='600% 300%';d.style.backgroundPosition=(a.col*20)+'% '+(a.row*50)+'%';d.style.backgroundRepeat='no-repeat';return d}
+function atlasThumb(i,n,a){const d=document.createElement('div');d.className='forge-mini production p'+i;d.style.position='relative';d.style.overflow='hidden';d.style.background='none';const cv=document.createElement('canvas');cv.width=256;cv.height=128;cv.style.cssText='width:64px;height:32px;display:block';const paint=()=>{const ctx=cv.getContext('2d'),sw=forgeAtlasImage.naturalWidth/6,sh=forgeAtlasImage.naturalHeight/3,ct=FORGE_CROP_TOP[i],cb=FORGE_CROP_BOTTOM[i],shift=FORGE_SOURCE_Y[i],sx=a.col*sw,sy=a.row*sh+ct+shift,hh=sh-ct-cb;ctx.clearRect(0,0,256,128);ctx.drawImage(forgeAtlasImage,sx,sy,sw,hh,0,ct,256,hh)};if(forgeAtlasImage.complete&&forgeAtlasImage.naturalWidth)paint();else forgeAtlasImage.addEventListener('load',paint,{once:true});d.appendChild(cv);return d}
 function atlasPart(i,n,a){const wrap=document.createElement('div');wrap.className='forge-part production p'+i;wrap.dataset.slot=FORGE_ASSET_MANIFEST.slots[i];wrap.style.marginLeft=FORGE_OVERLAP[i]+'px';const cv=document.createElement('canvas');cv.width=256;cv.height=128;cv.style.cssText='width:108px;height:54px;position:absolute;left:'+FORGE_X[i]+'px;top:'+(5+FORGE_Y[i])+'px';const paint=()=>{const ctx=cv.getContext('2d'),sw=forgeAtlasImage.naturalWidth/6,sh=forgeAtlasImage.naturalHeight/3,ct=FORGE_CROP_TOP[i],cb=FORGE_CROP_BOTTOM[i],sx=a.col*sw,shift=FORGE_SOURCE_Y[i],sy=a.row*sh+ct+shift,hh=sh-ct-cb,dy=ct;ctx.clearRect(0,0,256,128);ctx.save();ctx.beginPath();ctx.rect(0,dy,256,hh);ctx.clip();ctx.drawImage(forgeAtlasImage,sx,sy,sw,hh,0,ct,256,hh);ctx.restore()};if(forgeAtlasImage.complete&&forgeAtlasImage.naturalWidth)paint();else forgeAtlasImage.addEventListener('load',paint,{once:true});wrap.appendChild(cv);wrap.setAttribute('role','img');wrap.setAttribute('aria-label',slots[i][0]+' '+families[n]);return wrap}
 const state={choices:[0,0,0,0,0,0],blade:'#7eefff',revealed:false,open:false};
 function lines(v){return String(v||'').split(/\n|;/).map(x=>x.trim().toLowerCase()).filter(Boolean)}
