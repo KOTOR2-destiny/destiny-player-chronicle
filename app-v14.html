@@ -4457,7 +4457,7 @@ const FORGE_ASSET_MANIFEST={
 };
 function forgeAssetFor(i,n){const family=FORGE_ASSET_MANIFEST.productionFamilies[n],slot=FORGE_ASSET_MANIFEST.slots[i];return family?{src:'forge-parts/'+family+'/'+slot+'.png',family,slot}:null}
 const FORGE_OVERLAP=[0,-22,-23,-26,-26,-22];
-function assetThumb(i,n,a){const d=document.createElement('div');d.className='forge-mini production p'+i;const img=document.createElement('img');img.src=a.src;img.alt='';img.draggable=false;img.style.cssText='width:64px;height:32px;display:block;object-fit:contain';d.appendChild(img);return d}
+function assetThumb(i,n,a){const d=document.createElement('div');d.className='forge-mini production p'+i;const img=document.createElement('img');img.src=a.src;img.alt='';img.draggable=false;img.style.cssText='width:56px;height:28px;display:block;object-fit:contain;margin:auto';d.appendChild(img);return d}
 function assetPart(i,n,a){const wrap=document.createElement('div');wrap.className='forge-part production p'+i;wrap.dataset.slot=a.slot;wrap.style.marginLeft=FORGE_OVERLAP[i]+'px';const img=document.createElement('img');img.src=a.src;img.alt=slots[i][0]+' '+families[n];img.draggable=false;img.style.cssText='width:108px;height:54px;position:absolute;left:0;top:5px;object-fit:contain';wrap.appendChild(img);wrap.setAttribute('role','img');wrap.setAttribute('aria-label',img.alt);return wrap}
 const state={choices:[0,0,0,0,0,0],blade:'#7eefff',revealed:false,open:false};
 function lines(v){return String(v||'').split(/\n|;/).map(x=>x.trim().toLowerCase()).filter(Boolean)}
