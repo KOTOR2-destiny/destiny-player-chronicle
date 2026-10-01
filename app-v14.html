@@ -4456,9 +4456,17 @@ const FORGE_ASSET_MANIFEST={
  productionFamilies:{0:'temple',1:'guardian',3:'ancient'}
 };
 function forgeAssetFor(i,n){const family=FORGE_ASSET_MANIFEST.productionFamilies[n],slot=FORGE_ASSET_MANIFEST.slots[i];return family?{src:'forge-parts/'+family+'/'+slot+'.png',family,slot}:null}
-const FORGE_OVERLAP=[0,-22,-23,-26,-26,-22];
-function assetThumb(i,n,a){const d=document.createElement('div');d.className='forge-mini production p'+i;const img=document.createElement('img');img.src=a.src;img.alt='';img.draggable=false;img.style.cssText='width:56px;height:28px;display:block;object-fit:contain;margin:auto';d.appendChild(img);return d}
-function assetPart(i,n,a){const wrap=document.createElement('div');wrap.className='forge-part production p'+i;wrap.dataset.slot=a.slot;wrap.style.marginLeft=FORGE_OVERLAP[i]+'px';const img=document.createElement('img');img.src=a.src;img.alt=slots[i][0]+' '+families[n];img.draggable=false;img.style.cssText='width:108px;height:54px;position:absolute;left:0;top:5px;object-fit:contain';wrap.appendChild(img);wrap.setAttribute('role','img');wrap.setAttribute('aria-label',img.alt);return wrap}
+const FORGE_OVERLAP=[0,-22,-23,-26,-26,-25];
+const FORGE_LIVE_GEOMETRY=[
+ {w:102,h:51,x:3,y:6.5},
+ {w:108,h:54,x:0,y:5},
+ {w:108,h:54,x:0,y:5},
+ {w:108,h:54,x:0,y:5},
+ {w:108,h:54,x:0,y:5},
+ {w:104,h:52,x:2,y:6}
+];
+function assetThumb(i,n,a){const d=document.createElement('div');d.className='forge-mini production p'+i;const img=document.createElement('img');img.src=a.src;img.alt='';img.draggable=false;const edge=i===0||i===5;img.style.cssText='width:'+(edge?52:56)+'px;height:'+(edge?26:28)+'px;display:block;object-fit:contain;margin:'+(edge?'3px':'2px')+' auto';d.appendChild(img);return d}
+function assetPart(i,n,a){const wrap=document.createElement('div');wrap.className='forge-part production p'+i;wrap.dataset.slot=a.slot;wrap.style.marginLeft=FORGE_OVERLAP[i]+'px';const g=FORGE_LIVE_GEOMETRY[i],img=document.createElement('img');img.src=a.src;img.alt=slots[i][0]+' '+families[n];img.draggable=false;img.style.cssText='width:'+g.w+'px;height:'+g.h+'px;position:absolute;left:'+g.x+'px;top:'+g.y+'px;object-fit:contain';wrap.appendChild(img);wrap.setAttribute('role','img');wrap.setAttribute('aria-label',img.alt);return wrap}
 const state={choices:[0,0,0,0,0,0],blade:'#7eefff',revealed:false,open:false};
 function lines(v){return String(v||'').split(/\n|;/).map(x=>x.trim().toLowerCase()).filter(Boolean)}
 function eligible(){const j=Number(document.getElementById('cs-class-jedi')?.value||0),f=lines(document.getElementById('cs-feats')?.value);return j>=1&&f.some(x=>x===REQUIRED_FEAT||(x.includes('weapon proficiency')&&x.includes('lightsaber')))}
