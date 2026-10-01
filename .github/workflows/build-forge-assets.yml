@@ -52,11 +52,26 @@ jobs:
           for row,family in enumerate(families):
               folder=out/family; folder.mkdir(parents=True,exist_ok=True)
               for col,slot in enumerate(slots):
-                  cell=atlas.crop((col*cw,row*ch,(col+1)*cw,(row+1)*ch))
+                  # Emitter claws and pommel rings can cross the original atlas cell boundary.
+                  # Give those end pieces source-side breathing room, then let connected-component
+                  # isolation reject neighboring artwork before normalizing back to the standard canvas.
+                  pad_x=24 if slot in ('emitter','pommel') else 0
+                  pad_y=18 if slot in ('emitter','pommel') else 0
+                  left=max(0,col*cw-pad_x); top=max(0,row*ch-pad_y)
+                  right=min(atlas.width,(col+1)*cw+pad_x); bottom=min(atlas.height,(row+1)*ch+pad_y)
+                  cell=atlas.crop((left,top,right,bottom))
                   clean=largest_component(cell)
                   box=clean.getbbox()
                   if not box: raise RuntimeError(f'Empty component: {family}/{slot}')
                   piece=clean.crop(box)
+                  # Keep a transparent safety margin so decorative claws/rings never touch the
+                  # rendered image edge. Only end pieces are scaled if their recovered silhouette
+                  # would otherwise exceed that protected area.
+                  margin=8 if slot in ('emitter','pommel') else 0
+                  maxw=cw-margin*2; maxh=ch-margin*2
+                  if piece.width>maxw or piece.height>maxh:
+                      scale=min(maxw/piece.width,maxh/piece.height)
+                      piece=piece.resize((max(1,round(piece.width*scale)),max(1,round(piece.height*scale))),Image.Resampling.LANCZOS)
                   canvas=Image.new('RGBA',(cw,ch),(0,0,0,0))
                   x=(cw-piece.width)//2; y=(ch-piece.height)//2
                   canvas.alpha_composite(piece,(x,y))
