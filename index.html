@@ -4,7 +4,7 @@
 <script>
 (async()=>{
  try{
-  const r=await fetch('app-v14.html?v=20261007-0858',{cache:'no-store'}); if(!r.ok)throw new Error('HTTP '+r.status);
+  const r=await fetch('app-v14.html?v=20261007-1109',{cache:'no-store'}); if(!r.ok)throw new Error('HTTP '+r.status);
   let html=await r.text();
   html=html.replace('function rollCharacterSkill(i){','async function rollCharacterSkill(i){');
   html=html.replace("const FORGE_OVERLAP=[0,-22,-23,-26,-26,-25];","const FORGE_OVERLAP=[0,-22,-23,-26,-26,-25],FORGE_OVERLAP_BY_FAMILY={temple:[0,-24.7,-24.7,-29.3,-27.8,-29.7],guardian:[0,-19,-17.5,-20.9,-19,-21.9],ancient:[0,-23.2,-24.7,-23,-28.1,-34.4]},FORGE_JOINT_PROFILE=[null,{left:-25,width:50,height:15},{left:-24,width:48,height:14},{left:-23,width:46,height:13},{left:-25,width:50,height:14},{left:-27,width:54,height:13}],FORGE_JOINT_Y=[0,-0.5,-0.5,0,0,0],FORGE_PRODUCTION_GEOMETRY=Object.freeze({version:1,canvas:512,renderWidth:108,centerline:256,slots:Object.freeze({emitter:Object.freeze({slot:0,y:-2}),upperHilt:Object.freeze({slot:1,y:-1}),grip:Object.freeze({slot:2,y:0}),control:Object.freeze({slot:3,y:0,templeY:2}),lowerHilt:Object.freeze({slot:4,y:0}),pommel:Object.freeze({slot:5,y:3})}),rule:'Future production art must preserve the accepted slot canvas, centerline, attachment endpoints, terminal diameter, and general occupied width of its matching template.'});");
