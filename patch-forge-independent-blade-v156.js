@@ -2,7 +2,7 @@
 (()=>{'use strict';
 const CSS='.forge-stage .forge-saber .forge-blade{visibility:hidden!important}.forge-independent-blade{position:absolute;z-index:4;pointer-events:none;width:1900px;height:12px;border-radius:0;transform-origin:right center;transform:scaleX(0);opacity:0;transition:transform .5s cubic-bezier(.16,.7,.22,1),opacity .08s;background:linear-gradient(180deg,var(--blade-color),#fff 35%,#fff 65%,var(--blade-color));box-shadow:0 0 8px var(--blade-color),0 0 24px var(--blade-color),0 0 55px var(--blade-color)}.forge-independent-blade:before{content:"";position:absolute;inset:3px 0;background:#fff;border-radius:inherit;box-shadow:0 0 4px #fff}.forge-independent-blade:after{content:"";position:absolute;inset:-8px -3px;background:var(--blade-color);filter:blur(12px);opacity:.45;z-index:-1}.forge-independent-blade.is-lit{transform:scaleX(1);opacity:1}.forge-blade-switches{display:flex;justify-content:center;gap:10px;padding:8px;background:#080d10;border:1px solid #4a402c}.forge-blade-switches button{padding:9px 13px;border:1px solid #8a7548;background:#11191b;color:#e9d6aa;cursor:pointer}@media(prefers-reduced-motion:reduce){.forge-independent-blade{transition-duration:.01ms}}';
 const style=document.createElement('style');style.textContent=CSS;document.head.appendChild(style);
-const sounds={ignite:'forge-audio/ignite.wav',idle:'forge-audio/idle.mp3',retract:'forge-audio/retract.wav'};
+const sounds={ignite:'ignite.wav',idle:'idle.mp3',retract:'retract.wav'};
 let live=null;
 function stop(a){if(a){a.pause();a.currentTime=0}}
 function mount(stage){if(stage.dataset.independentBlade)return;stage.dataset.independentBlade='yes';
