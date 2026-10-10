@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1279" height="720" viewBox="0 0 1279 720">
+  <!-- Only front faces; coordinates belong to the unchanged accepted center image. -->
+  <path fill="white" d="M406 350 L397 351 L389 355 Q380 362 377 371 Q373 378 367 384 Q363 391 366 403 Q368 411 371 417 Q375 437 374 467 L418 467 Q404 451 399 429 Q395 414 393 399 Q391 383 395 370 Q398 357 406 350 Z"/>
+  <path fill="white" d="M871 349 L881 351 L888 356 Q898 365 903 375 Q907 381 912 385 Q915 391 912 403 Q910 411 907 417 Q902 437 903 467 L861 467 Q876 451 880 429 Q884 414 886 399 Q887 383 882 370 Q878 357 871 349 Z"/>
+</svg>

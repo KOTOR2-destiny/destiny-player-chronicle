@@ -1,0 +1,28 @@
+name: Validate original pixel Forge cradle
+on:
+  push:
+    branches: [forge-original-pixel-cradle]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-save playwright pngjs
+      - run: npx playwright install --with-deps chromium
+      - run: node scripts/verify-forge-cradle.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: forge-cradle-verification
+          path: |
+            parts-integration-verification.json
+            cradle-runtime-*.png
+            cradle-before-consular.png
+            cradle-registration.json
