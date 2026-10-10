@@ -25,3 +25,4 @@ jobs:
             double-verification.json
             double-runtime-*.png
             double-lit-*.png
+            double-interface.png
