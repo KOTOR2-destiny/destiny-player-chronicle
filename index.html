@@ -5,7 +5,7 @@
 (async()=>{
  try{
   const r=await fetch('app-v14.html?v=20261007-1743',{cache:'no-store'}); if(!r.ok)throw new Error('HTTP '+r.status);
-  let html=await r.text();
+  let html=(await r.text()).replace(/\r\n/g,'\n');
   html=html.replace("productionFamilies:{0:'temple',1:'guardian',3:'ancient'}","productionFamilies:{0:'temple',1:'guardian',2:'consular',3:'ancient',4:'expedition',5:'ascetic',6:'scholar',7:'defender',8:'artisan',9:'vigilant',10:'primal',11:'shrouded'}");
   html=html.replace("wrap.dataset.slot=a.slot;","wrap.dataset.slot=a.slot;if(i===0){const mouth={\"vigilant\":40.5,\"consular\":51.46875,\"ascetic\":50.41406,\"shrouded\":48.72656,\"primal\":36.91406,\"artisan\":41.34375,\"scholar\":54.63281,\"expedition\":30.58594,\"defender\":45.14062};if(Object.prototype.hasOwnProperty.call(mouth,a.family)){wrap.dataset.bladeOriginX=mouth[a.family]+1;wrap.dataset.bladeOriginY=32.00390625;}}");
   html=html.replace('function rollCharacterSkill(i){','async function rollCharacterSkill(i){');
@@ -46,7 +46,27 @@ function lines(v)`);
   html=html.replace("state.blade=sheet.artisanModule.blade||state.blade;", "state.form=sheet.artisanModule.form==='double'?'double':'single';state.doubleChoices=Array.isArray(sheet.artisanModule.doubleChoices)&&sheet.artisanModule.doubleChoices.length===7?sheet.artisanModule.doubleChoices.map(x=>Math.max(0,Math.min(11,Number(x)||0))):[...state.choices.slice(0,4),state.choices[2],state.choices[4],state.choices[0]];state.blade=sheet.artisanModule.blade||state.blade;");
   html=html.replace('</head>','<style>.forge-form-panel{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:12px;padding:12px;margin-top:10px;border:1px solid #4c4028;background:#080c0e}.forge-form-panel span{color:#ddc98e;font:11px Georgia,serif;letter-spacing:1px}.forge-form-panel button{padding:10px 16px;border:1px solid #66552f;background:#0c1113;color:#b9aa80;cursor:pointer}.forge-form-panel button[aria-pressed="true"]{border-color:#55bfff;box-shadow:0 0 8px rgba(50,155,255,.5);color:#fff}</style></head>');
 
+
+  html=html.replace(/\r\n/g,'\n');
+  // Forge equipment lifecycle; keep the accepted assembly renderer intact.
+  html=html.replace("doubleChoices:null,choices:","doubleChoices:null,completed:false,editingId:null,choices:");
+  html=html.replace("small.textContent=families[n];","small.textContent=name;small.title=families[n]+' — '+name;const family=document.createElement('span');family.className='forge-part-family';family.textContent=families[n];b.appendChild(family);");
+  html=html.replace("root.querySelector('[data-act=finalize]').onclick=()=>{markDirty();const b=root.querySelector('[data-act=finalize]');b.textContent='✓ LIGHTSABER EQUIPPED'};","root.querySelector('[data-act=finalize]').onclick=()=>window.DestinyForgeEquipment.openFinalize(root);");
+  html=html.replace(" preview(root)\n}"," preview(root);document.dispatchEvent(new CustomEvent('destiny-forge-render',{detail:{root}}))\n}");
+  html=html.replace("function render(root){if(!state.revealed)","function render(root){if(state.completed)state.revealed=true;if(!state.revealed)");
+  html=html.replace("s.artisanModule={form:state.form,","s.artisanModule={completed:state.completed,editingId:state.editingId,form:state.form,");
+  html=html.replace("const out=oldHydrate.apply(this,arguments);if(sheet?.artisanModule", "const out=oldHydrate.apply(this,arguments);state.completed=!!sheet?.artisanModule?.completed;state.editingId=sheet?.artisanModule?.editingId||null;if(!sheet?.artisanModule){state.revealed=false;state.open=false;state.form='single';state.choices=[0,0,0,0,0,0];state.doubleChoices=null;state.blade='#7eefff'}if(sheet?.artisanModule");
+  html=html.replace("const oldCollect=window.collectCharacterSheet;",`window.DestinyForge={
+getBuild(){return {form:state.form,choices:[...state.choices],doubleChoices:state.doubleChoices?[...state.doubleChoices]:null,blade:state.blade}},
+getEditingId(){return state.editingId},
+assembly(build){const keep={...state};try{Object.assign(state,build);const root=document.createElement('div');root.innerHTML='<div class="forge-screen"><div class="forge-stage"><div class="forge-saber"></div></div></div>';preview(root);return root.querySelector('.forge-assembly')}finally{Object.assign(state,keep)}},
+finish(id){state.completed=true;state.revealed=true;state.editingId=id;state.open=false;const root=document.getElementById(ROOT_ID);if(root)render(root);markDirty()},
+open(build,id){Object.assign(state,build);state.editingId=id||null;state.revealed=true;state.open=true;ensure();const root=document.getElementById(ROOT_ID);if(root){workshop(root);root.scrollIntoView({behavior:'smooth',block:'start'})}}
+};const oldCollect=window.collectCharacterSheet;`);
+  html=html.replace('</body>','<script src="patch-forge-equipment-v159.js?v=20261010-final-1"></'+'script></body>');
+
   document.open();document.write(html);document.close();
  }catch(e){document.body.innerHTML='<div style="padding:30px">CHRONICLE LOAD ERROR // '+String(e)+'</div>';}
 })();
 </script></body></html>
+

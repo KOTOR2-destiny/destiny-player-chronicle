@@ -21,6 +21,7 @@ function mount(stage){if(stage.dataset.independentBlade)return;stage.dataset.ind
  const instance={stage,resetBlade,killAudio,sync,resumeHum(){if(ends.some(e=>active[e]))hum=audio('idle',.20,true)},dispose(){if(disposed)return;resetBlade();disposed=true;observer.disconnect();window.removeEventListener('resize',align);if(input)input.removeEventListener('input',onColor);instances.delete(instance)},signature:signature()};
  const observer=new MutationObserver(()=>{if(!stage.isConnected){instance.dispose();return}const next=signature();if(next!==instance.signature){instance.signature=next;resetBlade();align()}});observer.observe(stage,{childList:true,subtree:true,attributes:true,attributeFilter:['src','class','style']});instances.add(instance);sync();requestAnimationFrame(align)
 }
+window.DestinyForgeBlades={stopAll(){for(const item of instances)item.resetBlade()}};
 function sweep(){for(const item of Array.from(instances))if(!item.stage.isConnected)item.dispose();document.querySelectorAll('.forge-screen .forge-stage').forEach(mount)}
 const watcher=new MutationObserver(sweep);watcher.observe(document.documentElement,{childList:true,subtree:true});sweep();
 })();
