@@ -17,10 +17,12 @@ jobs:
       - run: npm install --no-save playwright pngjs
       - run: npx playwright install --with-deps chromium
       - run: node scripts/verify-forge-equipment.cjs
+      - run: node scripts/verify-forge-full.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: forge-equipment-verification
           path: |
             equipment-verification.json
+            equipment-production-verification.json
             equipment-*.png
