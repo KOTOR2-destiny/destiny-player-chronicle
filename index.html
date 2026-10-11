@@ -56,7 +56,7 @@ function lines(v)`);
   html=html.replace("function render(root){if(!state.revealed)","function render(root){if(state.completed)state.revealed=true;if(!state.revealed)");
   html=html.replace("if(eligible())s.artisanModule", "if(eligible()||state.completed)s.artisanModule");
   html=html.replace("s.artisanModule={form:state.form,","s.artisanModule={completed:state.completed,editingId:state.editingId,form:state.form,");
-  html=html.replace("const out=oldHydrate.apply(this,arguments);if(sheet?.artisanModule", "const out=oldHydrate.apply(this,arguments);state.completed=!!sheet?.artisanModule?.completed||!!sheet?.weapons?.some(w=>w.forgeSaber);state.editingId=sheet?.artisanModule?.editingId||null;if(!sheet?.artisanModule){state.revealed=false;state.open=false;state.form='single';state.choices=[0,0,0,0,0,0];state.doubleChoices=null;state.blade='#7eefff'}if(sheet?.artisanModule");
+  html=html.replace("const out=oldHydrate.apply(this,arguments);if(sheet?.artisanModule", "const out=oldHydrate.apply(this,arguments);wasEligible=eligible();state.completed=!!sheet?.artisanModule?.completed||!!sheet?.weapons?.some(w=>w.forgeSaber);state.editingId=sheet?.artisanModule?.editingId||null;if(!sheet?.artisanModule){state.revealed=false;state.open=false;state.form='single';state.choices=[0,0,0,0,0,0];state.doubleChoices=null;state.blade='#7eefff'}if(sheet?.artisanModule");
   html=html.replace("const oldCollect=window.collectCharacterSheet;",`window.DestinyForge={
 getBuild(){return {form:state.form,choices:[...state.choices],doubleChoices:state.doubleChoices?[...state.doubleChoices]:null,blade:state.blade}},
 getEditingId(){return state.editingId},
