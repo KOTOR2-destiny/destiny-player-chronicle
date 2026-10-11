@@ -1,9 +1,9 @@
 const fs=require('fs'),vm=require('vm'),http=require('http'),assert=require('assert'),cp=require('child_process'),{chromium}=require('playwright');
 const ci=fs.existsSync('app-v14.html'),app=fs.readFileSync(ci?'app-v14.html':'app-current82.html','utf8');
-async function transform(source){let html;await vm.runInNewContext(source.match(/<script>([\s\S]*?)<\/script>/)[1],{fetch:async()=>({ok:true,text:async()=>app}),document:{open(){},write(s){html=s},close(){}},console});assert(html);return html;}
+async function transform(source){let html;await vm.runInNewContext(source.match(/<script>([\s\S]*?)<\/script>/)[1],{fetch:async()=>({ok:true,text:async()=>app.replace(/\r\n/g,'\n')}),document:{open(){},write(s){html=s},close(){}},console});assert(html);return html;}
 function fn(source,name){const start=source.indexOf('function '+name+'(');assert(start>=0,name);const next=source.slice(start+9).search(/\n(?:async )?function /);return source.slice(start,next<0?source.length:start+9+next)}
 (async()=>{
-const after=await transform(fs.readFileSync(ci?'index.html':'index-finish82.html','utf8')),before=await transform(ci?cp.execFileSync('git',['show','4fc504c6008f2831585f340c27a9cc87e8cae3e7:index.html'],'utf8'):fs.readFileSync('index-current82.html','utf8'));
+const after=await transform(fs.readFileSync(ci?'index.html':'index-finish82.html','utf8')),before=await transform(ci?cp.execFileSync('git',['show','4fc504c6008f2831585f340c27a9cc87e8cae3e7:index.html'],{encoding:'utf8'}):fs.readFileSync('index-current82.html','utf8'));
 for(const token of ['completed:false','DestinyForgeEquipment.openFinalize(root)','destiny-forge-render','window.DestinyForge=','completed:state.completed'])assert(after.includes(token),token);
 for(const script of after.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g))if(script[1].trim())new vm.Script(script[1]);
 const module=s=>s.match(/\/\* Destiny Player Chronicle v1\.48[\s\S]*?<\/script>/)[0].replace(/<\/script>$/,''),styles=s=>[...s.matchAll(/<style>([\s\S]*?)<\/style>/g)].map(x=>x[1]).filter(x=>x.startsWith('.forge-stage{')||x.startsWith('.forge-form-panel')).join('\n');
