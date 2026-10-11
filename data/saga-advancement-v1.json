@@ -872,6 +872,9 @@
           "Melee Defense",
           "Rapid Strike"
         ],
+        "feat_bases": [
+          "Weapon Focus"
+        ],
         "special": [
           "Weapon Focus with a melee weapon (Core / KOTOR errata)"
         ]

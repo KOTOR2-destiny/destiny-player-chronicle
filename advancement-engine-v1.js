@@ -23,6 +23,7 @@ function requirements(p,sheet,data,offsets={},choice='',entry=false){const s=sta
  if(p.level!=null&&s.level<num(p.level))errors.push('Heroic level '+p.level+' required');if(p.bab!=null&&s.bab<num(p.bab))errors.push('BAB +'+p.bab+' required');
  for(const[a,min]of Object.entries(p.abilities||{}))if(s.scores[a]<num(min))errors.push(a.toUpperCase()+' '+min+' required');
  for(const name of p.feats||[])if(!has(f['cs-feats'],replace(name)))errors.push('Feat required: '+replace(name));
+ for(const name of p.feat_bases||[])if(!lines(f['cs-feats']).some(x=>baseName(x)===norm(name)))errors.push('Feat required: '+name+' with a qualifying weapon');
  for(const name of p.talents||[])if(!has(f['cs-talents'],replace(name)))errors.push('Talent required: '+replace(name));
  for(const name of p.trained_skills||[])if(!trained(sheet,data,replace(name)))errors.push('Trained skill required: '+replace(name));
  for(const name of p.powers||[])if(!has(f['cs-force-powers'],name))errors.push('Force power required: '+name);

@@ -26,4 +26,5 @@ for(const name of ['Jedi Master','Sith Lord','Force Disciple'])assert.equal(data
 before=base();before.fields['cs-class-other']='2';assert(E.entryProblems('Soldier',before,data).some(x=>x.includes('Identify')));
 // Undo removes only recorded copies and retains a re-attested story entitlement.
 before=base();const d={...awakening};({sheet}=E.finalize(before,d,data,{},'test-2'));sheet.advancement.entitlements.push({name:'Force Sensitivity',type:'feat',origin:'story reward'});undone=E.revert(sheet,data);assert(E.has(undone.fields['cs-feats'],'Force Sensitivity'));
+before=base();before.fields['cs-class-soldier']='7';before.fields['cs-feats']+='\nMelee Defense\nRapid Strike';assert(E.entryProblems('Melee Duelist',before,data).some(x=>x.includes('Weapon Focus')));before.fields['cs-feats']+='\nWeapon Focus (Lightsabers)';assert(!E.entryProblems('Melee Duelist',before,data).some(x=>x.includes('Weapon Focus')));
 console.log('ADVANCEMENT ENGINE: awakening, rolled HP, milestones, prerequisites, Force Training, prestige, provenance, conflicts, equipment preservation and revert passed.');
