@@ -55,13 +55,13 @@ function lines(v)`);
   html=html.replace(" preview(root)\n}"," preview(root);document.dispatchEvent(new CustomEvent('destiny-forge-render',{detail:{root}}))\n}");
   html=html.replace("function render(root){if(!state.revealed)","function render(root){if(state.completed)state.revealed=true;if(!state.revealed)");
   html=html.replace("if(eligible())s.artisanModule", "if(eligible()||state.completed)s.artisanModule");
-  html=html.replace("s.artisanModule={form:state.form,","s.artisanModule={completed:state.completed,editingId:state.editingId,form:state.form,");
-  html=html.replace("const out=oldHydrate.apply(this,arguments);if(sheet?.artisanModule", "const out=oldHydrate.apply(this,arguments);wasEligible=eligible();state.completed=!!sheet?.artisanModule?.completed||!!sheet?.weapons?.some(w=>w.forgeSaber);state.editingId=sheet?.artisanModule?.editingId||null;if(!sheet?.artisanModule){state.revealed=false;state.open=false;state.form='single';state.choices=[0,0,0,0,0,0];state.doubleChoices=null;state.blade='#7eefff'}if(sheet?.artisanModule");
+  html=html.replace("s.artisanModule={form:state.form,","s.artisanModule={completed:state.completed,editingActive:!!state.editingId,editingId:state.editingId,form:state.form,");
+  html=html.replace("const out=oldHydrate.apply(this,arguments);if(sheet?.artisanModule", "const out=oldHydrate.apply(this,arguments);wasEligible=eligible();state.completed=!!sheet?.artisanModule?.completed||!!sheet?.weapons?.some(w=>w.forgeSaber);state.editingId=sheet?.artisanModule?.editingActive===true?(sheet.artisanModule.editingId||null):null;if(!sheet?.artisanModule){state.revealed=false;state.open=false;state.form='single';state.choices=[0,0,0,0,0,0];state.doubleChoices=null;state.blade='#7eefff'}if(sheet?.artisanModule");
   html=html.replace("const oldCollect=window.collectCharacterSheet;",`window.DestinyForge={
 getBuild(){return {form:state.form,choices:[...state.choices],doubleChoices:state.doubleChoices?[...state.doubleChoices]:null,blade:state.blade}},
 getEditingId(){return state.editingId},
 assembly(build){const keep={...state};try{Object.assign(state,build);const root=document.createElement('div');root.innerHTML='<div class="forge-screen"><div class="forge-stage"><div class="forge-saber"></div></div></div>';preview(root);return root.querySelector('.forge-assembly')}finally{Object.assign(state,keep)}},
-finish(id){state.completed=true;state.revealed=true;state.editingId=id;state.open=false;const root=document.getElementById(ROOT_ID);if(root)render(root);markDirty()},
+finish(id){state.completed=true;state.revealed=true;state.editingId=null;state.form='single';state.choices=[0,0,0,0,0,0];state.doubleChoices=null;state.blade='#7eefff';state.open=false;const root=document.getElementById(ROOT_ID);if(root)render(root);markDirty()},
 open(build,id){Object.assign(state,build);state.editingId=id||null;state.revealed=true;state.open=true;ensure();const root=document.getElementById(ROOT_ID);if(root){workshop(root);root.scrollIntoView({behavior:'smooth',block:'start'})}}
 };const oldCollect=window.collectCharacterSheet;`);
   html=html.replace('</body>','<script src="patch-forge-equipment-v159.js?v=20261010-final-1"></'+'script></body>');
