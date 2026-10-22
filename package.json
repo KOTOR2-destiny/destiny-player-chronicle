@@ -1,0 +1,16 @@
+{
+  "name": "destiny-player-chronicle",
+  "private": true,
+  "scripts": {
+    "test:exports": "node scripts/build-export-calculator.cjs --check && node scripts/verify-character-exports.cjs && node scripts/verify-character-exports-browser.cjs",
+    "test:regression": "node scripts/verify-advancement-engine.cjs && node scripts/verify-advancement-browser.cjs && node scripts/verify-forge-equipment.cjs && node scripts/verify-forge-full.cjs"
+  },
+  "devDependencies": {
+    "@pdf-lib/fontkit": "1.1.1",
+    "docx": "9.6.1",
+    "jszip": "3.10.1",
+    "pdf-lib": "1.17.1",
+    "playwright": "1.62.1",
+    "pngjs": "7.0.0"
+  }
+}
