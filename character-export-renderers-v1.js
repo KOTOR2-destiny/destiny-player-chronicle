@@ -13,7 +13,9 @@ async function pdf(model,{PDFLib,fontkit,regular,bold}){
  function line(text,{size=10,face=font,tint=muted,x=left}={}){if(y<bottom+16)newPage();if(text)page.drawText(text,{x,y,font:face,size,color:tint});y-=size*1.45;}
  function text(t,options={}){for(const l of wrap(t,options.size||10,options.face||font,width))line(l,options)}
  newPage();text(model.name,{size:24,face:strong,tint:color});text('CHARACTER RECORD',{size:10,face:strong});y-=12;
- for(const section of model.sections){if(y<bottom+85)newPage();y-=7;text(section.title,{size:14,face:strong,tint:color});y-=4;
+ for(const section of model.sections){
+  const first=section.rows[0],firstHeight=first&&first[0].length<45&&first[1].length<180?Math.max(wrap(first[0],9,strong,157).length,wrap(first[1],10,font,332).length)*15+8:45;
+  if(y<bottom+40+firstHeight)newPage();y-=7;text(section.title,{size:14,face:strong,tint:color});y-=4;
   for(const [label,v]of section.rows){
    if(section.rows.length===1&&label===section.title){text(v,{size:10});y-=7;continue;}
    if(label.length<45&&v.length<180){const labels=wrap(label,9,strong,157),values=wrap(v,10,font,332),height=Math.max(labels.length,values.length)*15+8;if(y<bottom+height)newPage();const start=y;labels.forEach((t,i)=>page.drawText(t,{x:left,y:start-i*15,font:strong,size:9,color}));values.forEach((t,i)=>page.drawText(t,{x:left+172,y:start-i*15,font,size:10,color:muted}));y-=height;
