@@ -1,7 +1,7 @@
 name: Validate character exports and GM review
 on:
   push:
-    branches: [character-exports-gm-review]
+    branches: [character-exports-gm-review, current-party-selection]
   pull_request:
     branches: [main]
     paths: ['character-export*.js', 'gm-party*', 'index.html', 'gm-admin.html', 'vendor/**', 'scripts/*character-exports*', 'scripts/build-export-calculator.cjs', 'app-v14.html', 'patch-v15.js', 'patch-forge-equipment-v159.js', 'package*.json', '.github/workflows/validate-character-exports.yml']

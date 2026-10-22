@@ -4,11 +4,11 @@ The player character header has Export to PDF and Export to Word controls. Galac
 
 ## Architecture and access
 
-The repository is a static GitHub Pages application. Supabase supplies authentication and authoritative `character_sheets` rows. The existing SELECT policy permits `auth.uid() = user_id OR is_gm()`. Ownership policies continue controlling edits. No new backend, database table, migration, permission, or public file-storage bucket is needed.
+The repository is a static GitHub Pages application. Supabase supplies authentication and authoritative `character_sheets` rows. The existing SELECT policy permits `auth.uid() = user_id OR is_gm()`. Ownership policies continue controlling edits. The current-party enhancement adds a small GM-only settings table; existing character policies and records are unchanged. No public file-storage bucket is used.
 
 Player exports obtain a verified authenticated user, read that user's current saved row, and verify ownership and account continuity. They do not call collect, hydrate, save, or update. An open wizard and unsaved inputs are excluded. They do not update edit timestamps. Each export uses one returned row as its consistent snapshot; changes saved after that read belong to the next export.
 
-The GM page reuses `destiny-gm-admin-auth`, validates the user and server `is_gm()` before reads, and checks authorization again afterward. Database RLS remains the enforcement boundary if someone changes requests or navigates directly to the page. Bulk downloads re-read the intended IDs and require every selected record to remain accessible. The roster lists actual accessible sheets, with no hardcoded characters or example statistics. The current schema has no campaign identifier to support additional campaign scoping.
+The GM page reuses `destiny-gm-admin-auth`, validates the user and server `is_gm()` before reads, and checks authorization again afterward. Database RLS remains the enforcement boundary if someone changes requests or navigates directly to the page. Bulk downloads re-read the intended IDs and require every selected record to remain accessible. The roster lists actual accessible sheets, with no hardcoded characters or example statistics. The shared saved current-party selection determines grouping and party exports.
 
 Document generation happens locally in the authenticated browser after its protected read. The PDF, Word, and ZIP bytes are downloaded with temporary object URLs, which are revoked. There are no publicly hosted generated documents. Runtime packages and fonts are served locally from `vendor/`; external document services receive no character information.
 
@@ -52,6 +52,17 @@ Live database verification used a rolled-back transaction with existing owner/GM
 
 ## Deployment and rollback
 
-Merge the reviewed change into `main`, which is the repository's existing GitHub Pages source at the root. There is no build step or database migration for deployment; runtime files are already committed. Wait for the existing Pages workflow to succeed. Open the Chronicle, check the two new export controls, then follow the Galactic Database party-roster link with the existing GM session. Sign in through Galactic Database first if necessary.
+Merge the reviewed change into `main`, which is the repository's existing GitHub Pages source at the root. Apply `supabase/migrations/20261022162112_current_party_selection.sql` before deploying the membership UI. There is no build step; runtime files are already committed. Wait for the existing Pages workflow to succeed. Open the Chronicle, check the two new export controls, then follow the Galactic Database party-roster link with the existing GM session. Sign in through Galactic Database first if necessary.
 
-To roll back, revert this feature's merge commit and let Pages redeploy. No data restoration or schema rollback is needed because this feature does not write character records. Existing player exports remain ordinary local documents. PDF and Word are human-readable references; no import/restore or disaster-recovery claim is made.
+To roll back, revert this feature's merge commit and let Pages redeploy. No character data restoration is needed. The GM-only settings table can remain when reverting the UI; dropping it would erase saved membership and is unnecessary for rollback. Existing player exports remain ordinary local documents. PDF and Word are human-readable references; no import/restore or disaster-recovery claim is made.
+
+
+## Saved current party
+
+Each character has a checkbox in the Current Party column. Changes remain a draft until Save Current Party is clicked beneath the roster. Discard changes restores the centrally saved selection. Committed members are grouped first; all other sheets stay below, remain individually viewable/exportable, and retain their advancement review records.
+
+`public.gm_party_settings` stores one shared `current` row with UUID member IDs, an integer revision, and a timestamp. GM-only SELECT/INSERT/UPDATE policies use the existing server `is_gm()` check. Players and anonymous visitors cannot read or change membership. No membership is seeded or inferred from character names. An absent row or saved empty array means there are no members to export; the UI disables party ZIP and summary controls until members are saved.
+
+Both Party Sheets ZIP formats and Combat Summary re-read the saved membership before fetching the selected character rows. Unsaved checkboxes never alter export scope. Automatic refresh preserves a dirty draft; concurrent settings changes flag a conflict, and revision-matched updates prevent a stale browser from overwriting newer membership. Failed saves preserve the draft and previously saved selection. The settings row is shared across GM browsers/accounts, while player character exports and character records are untouched.
+
+The membership browser tests cover saved grouping, other-character access, explicit commit, unsaved export exclusion, summary filtering, refresh preservation, failure recovery, stale-save rejection, first save, and a deliberately empty party. Database access and revision behavior are also tested in a rolled-back transaction.
